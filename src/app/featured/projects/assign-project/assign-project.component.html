@@ -1,0 +1,51 @@
+<div class="container timesheet-container">
+  <div class="header-content">
+    <p>Assign Project</p>
+    <div>
+      <button class="btn btn-success me-2" (click)="onBack()">Back</button>
+      <button class="btn btn-success" (click)="onSubmit()">Assign</button>
+    </div>
+  </div>
+  <form class="timesheet-form">
+    <div class="mb-3">
+      <app-select-dropdown
+        formControlName="project"
+        [items]="projects"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Select a project"
+        label="Project"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="hours" class="form-label">Assign To</label>
+      <!-- <input type="number" class="form-control" /> --> 
+      <mat-form-field class="w-100">
+        <mat-chip-grid #chipGrid aria-label="Enter fruits">
+          @for (fruit of fruits(); track fruit) {
+            <mat-chip-row
+              (removed)="remove(fruit)"
+              [editable]="true"
+              (edited)="edit(fruit, $event)"
+              [aria-description]="'press enter to edit ' + fruit.name"
+            >
+              {{fruit.name}}
+              <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+          <input
+            placeholder="New fruit..."
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+          />
+        </mat-chip-grid>
+      </mat-form-field>
+      
+      
+    </div>
+  </form>
+</div>

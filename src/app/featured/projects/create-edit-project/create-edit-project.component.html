@@ -1,1 +1,24 @@
-<p>create-edit-project works!</p>
+<div class="container timesheet-container">
+  <div class="header-content">
+    <p>Add Project</p>
+    <div>
+      <button class="btn btn-success me-2" (click)="onBack()">Back</button>
+      <button class="btn btn-success" (click)="onSubmit()">Create</button>
+    </div>
+  </div>
+  <form class="timesheet-form">
+    <div class="mb-3">
+      <label for="hours" class="form-label">Project Name</label>
+      <input
+        class="form-control"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="hours" class="form-label">Allocate hours</label>
+      <input
+        type="number"
+        class="form-control"
+      />
+    </div>
+  </form>
+</div>
