@@ -13,14 +13,6 @@
   transition: all 0.3s ease;
   z-index: 1000;
   width: 230px;
-  .user-type {
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 
   ul {
     list-style: none;
@@ -41,10 +33,14 @@
         margin-right: 10px;
       }
 
-      &:hover,
+      &:hover {
+        font-weight: bolder;
+      }
+
       &.active {
         background-color: #ffffff;
         color: #198754;
+        font-weight: bolder;
       }
     }
   }

@@ -1,34 +1,53 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './featured/accounts/login/login.component';
-import { CreateTimesheetComponent } from './featured/timesheets/create-timesheet/create-timesheet.component';
-import { LayoutComponent } from './featured/layout/layout.component';
-import { ViewTimesheetsComponent } from './featured/timesheets/view-timesheets/view-timesheets.component';
+import { ROUTE_NAMES } from './shared/enums/routes.enum';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'app',
+    path: ROUTE_NAMES.BASE,
+    redirectTo: ROUTE_NAMES.APP,
     pathMatch: 'full',
   },
   {
-    path: 'app',
-    component: LayoutComponent,
+    path: ROUTE_NAMES.APP,
+    loadComponent: () =>
+      import('./featured/layout/layout.component').then(
+        (component) => component.LayoutComponent
+      ),
     children: [
       {
-        path: 'add-timesheet',
-        component: CreateTimesheetComponent,
-        title: 'Fill Timesheet'
+        path: ROUTE_NAMES.TIMESHEET.BASE,
+        loadChildren: () =>
+          import('./featured/timesheets/timesheet.routes').then(
+            (routes) => routes.timesheetRoutes
+          ),
       },
       {
-        path: 'view-timesheet',
-        component: ViewTimesheetsComponent,
-        title: 'View Timesheets'
+        path: ROUTE_NAMES.PROJECT.BASE,
+        loadChildren: () =>
+          import('./featured/projects/project.routes').then(
+            (routes) => routes.projectsRoutes
+          ),
+      },
+      {
+        path: ROUTE_NAMES.TASK.BASE,
+        loadChildren: () =>
+          import('./featured/tasks/task.routes').then(
+            (routes) => routes.tasksRoutes
+          ),
       },
     ],
   },
   {
-    path: 'login',
-    component: LoginComponent,
-    title: 'Login'
+    path: ROUTE_NAMES.LOGIN,
+    loadComponent: () =>
+      import('./featured/accounts/login/login.component').then(
+        (component) => component.LoginComponent
+      ),
+    title: 'Login',
+  },
+  {
+    path: ROUTE_NAMES.WILD_CARD,
+    redirectTo: ROUTE_NAMES.BASE,
+    pathMatch: 'full',
   },
 ];

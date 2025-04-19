@@ -22,7 +22,16 @@ export class TableViewComponent implements OnChanges {
   }
 
   get columns(): string[] {
-    return this.columnDefs.map(col => col.key);
+    return [...this.columnDefs.map(col => col.key), 'actions'];
   }
+
+  onEdit(element: any) {
+    console.log('Edit clicked', element);
+  }
+  
+  onDelete(element: any) {
+    console.log('Delete clicked', element);
+  }
+  
 
 }

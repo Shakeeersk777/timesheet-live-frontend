@@ -1,1 +1,11 @@
-<p>view-tasks works!</p>
+<div class="container view-timesheet-container">
+    <div class="header-content">
+      <p>Manage Tasks</p>
+      <div>
+        <button class="btn btn-success me-2" (click)="onAdd()">Add</button>
+      </div>
+     
+    </div>
+    <app-table-view [columnDefs]="columnDefs" [data]="data" />
+  </div>
+  

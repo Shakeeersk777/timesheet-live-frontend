@@ -10,7 +10,10 @@
     [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
     (click)="toggleCollapse()"
   >
-    <i class="fa fa-bars"></i>
+    <!-- <i class="fa fa-bars"></i> -->
+    <i
+      [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"
+    ></i>
   </button>
 
   <hr />

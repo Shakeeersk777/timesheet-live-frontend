@@ -13,6 +13,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 
 @Component({
   selector: 'app-create-timesheet',
@@ -35,6 +37,8 @@ import {
 export class CreateTimesheetComponent implements OnInit {
   createTimesheetForm!: FormGroup;
   _formBuilder = inject(FormBuilder);
+  _router: Router = inject(Router);
+
   projects = [
     { id: 'projectA', name: 'Project A' },
     { id: 'projectB', name: 'Project B' },
@@ -57,5 +61,11 @@ export class CreateTimesheetComponent implements OnInit {
 
   onSubmit() {
     console.log(this.createTimesheetForm);
+  }
+
+  onBack() {
+    this._router.navigateByUrl(
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.TIMESHEET.BASE}/${ROUTE_NAMES.TIMESHEET.LIST}`
+    );
   }
 }

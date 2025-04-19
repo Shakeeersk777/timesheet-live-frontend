@@ -1,15 +1,27 @@
 <div class="mat-table-wrapper">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
-  
-      <!-- Dynamic Columns -->
-      <ng-container *ngFor="let col of columnDefs" [matColumnDef]="col.key">
-        <th mat-header-cell *matHeaderCellDef> {{ col.header }} </th>
-        <td mat-cell *matCellDef="let element"> {{ element[col.key] }} </td>
-      </ng-container>
-  
-      <!-- Header and Rows -->
-      <tr mat-header-row *matHeaderRowDef="columns"></tr>
-      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-    </table>
-  </div>
-  
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z2 w-100">
+
+    <!-- Dynamic Columns -->
+    <ng-container *ngFor="let col of columnDefs" [matColumnDef]="col.key">
+      <th mat-header-cell *matHeaderCellDef>{{ col.header }}</th>
+      <td mat-cell *matCellDef="let element">{{ element[col.key] }}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let element">
+        <button class="btn btn-sm edit-icon" (click)="onEdit(element)" matTooltip="Edit">
+          <i class="fa fa-solid fa-pen"></i>
+        </button>
+        <button class="btn btn-sm delete-icon" (click)="onDelete(element)" matTooltip="Delete">
+          <i class="fa fa-trash"></i>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Rows -->
+    <tr mat-header-row *matHeaderRowDef="columns"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns"></tr>
+  </table>
+</div>
