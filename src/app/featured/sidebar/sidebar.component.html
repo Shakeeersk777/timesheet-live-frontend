@@ -1,0 +1,47 @@
+<div
+  [ngClass]="{
+    collapsed: isCollapsed,
+  }"
+  class="sidebar-container"
+  [ngStyle]="{ display: isMobile ? 'none' : 'block' }"
+>
+  <button
+    class="collapse-btn"
+    [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
+    (click)="toggleCollapse()"
+  >
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <hr />
+
+  <ul class="mynav">
+    <li
+      *ngFor="let sidebar of sidebarList"
+      (click)="onSidebarChange(sidebar)"
+      [class.active]="currentTab === sidebar.key"
+    >
+      <i
+        class="{{ sidebar.icon }}"
+        [matTooltipPosition]="'right'"
+        [matTooltip]="isCollapsed ? sidebar.value : null"
+        matTooltipClass="my-custom-tooltip"
+      ></i>
+      <span *ngIf="!isCollapsed">{{ sidebar.value }}</span>
+    </li>
+  </ul>
+
+  <hr />
+
+  <button class="btn profile-btn">
+    <i
+      class="fa fa-user-circle"
+      [matTooltipPosition]="'right'"
+      [matTooltip]="isCollapsed ? 'Shakeer Shaik' : null"
+      matTooltipClass="my-custom-tooltip"
+    ></i>
+    @if (!isCollapsed) {
+    <span class="m-2">Shakeer Shaik</span>
+    }
+  </button>
+</div>

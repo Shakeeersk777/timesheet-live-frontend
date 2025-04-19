@@ -1,0 +1,65 @@
+import { Component } from '@angular/core';
+import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
+
+@Component({
+  selector: 'app-view-timesheets',
+  standalone: true,
+  imports: [TableViewComponent],
+  templateUrl: './view-timesheets.component.html',
+  styleUrl: './view-timesheets.component.scss',
+})
+export class ViewTimesheetsComponent {
+  columnDefs = [
+    { key: 'id', header: 'ID' },
+    { key: 'name', header: 'Name' },
+    { key: 'role', header: 'Role' },
+  ];
+
+  data = [
+    { id: 1, name: 'Alice', role: 'Developer' },
+    { id: 2, name: 'Bob', role: 'Designer' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+    { id: 3, name: 'Charlie', role: 'Manager' },
+  ];
+}

@@ -1,0 +1,69 @@
+<div class="container timesheet-container">
+  <div class="header-content">
+    <p>Add Timesheet</p>
+    <button class="btn btn-success" (click)="onSubmit()">Submit</button>
+  </div>
+  <form class="timesheet-form" [formGroup]="createTimesheetForm">
+    <div class="mb-3">
+      <app-select-dropdown
+        formControlName="project"
+        [items]="projects"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Select a project"
+        label="Project"
+      />
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        formControlName="task"
+        [items]="projects"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Select a task"
+        label="Task"
+      />
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        formControlName="taskType"
+        [items]="projects"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Select a task type"
+        label="Task Type"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="date" class="form-label">Date</label>
+      <input type="date" class="form-control" id="date" name="date" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="hours" class="form-label">Hours</label>
+      <input
+        type="number"
+        class="form-control"
+        id="hours"
+        name="hours"
+        min="0"
+        max="24"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">Task Description</label>
+      <textarea
+        class="form-control"
+        id="description"
+        name="description"
+        rows="3"
+        required
+      ></textarea>
+    </div>
+  </form>
+</div>

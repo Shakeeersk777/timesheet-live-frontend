@@ -1,0 +1,18 @@
+<div class="form-group">
+  @if (label) {
+  <label class="form-label">{{ label }}</label>
+  }
+  <ng-select
+    class="custom-ng-select"
+    [items]="items"
+    bindLabel="name"
+    bindValue="id"
+    [placeholder]="placeholder"
+    [searchable]="false"
+    [clearable]="false"
+    [dropdownPosition]="'bottom'"
+    [fixedPlaceholder]="false"
+    [(ngModel)]="value"
+    (ngModelChange)="setValue($event)"
+  />
+</div>
