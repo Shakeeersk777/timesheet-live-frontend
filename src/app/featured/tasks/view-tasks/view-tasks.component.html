@@ -1,11 +1,9 @@
-<div class="container view-timesheet-container">
-    <div class="header-content">
-      <p>Manage Tasks</p>
-      <div>
-        <button class="btn btn-success me-2" (click)="onAdd()">Add</button>
-      </div>
-     
+<div class="container manage-list-container">
+  <div class="header-content">
+    <p>Manage Tasks</p>
+    <div>
+      <button class="btn btn-success me-2" (click)="onAdd()">Add</button>
     </div>
-    <app-table-view [columnDefs]="columnDefs" [data]="data" />
   </div>
-  
+  <app-table-view [columnDefs]="columnDefs" [data]="data" />
+</div>

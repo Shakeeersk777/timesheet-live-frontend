@@ -1,11 +1,10 @@
-<div class="container view-timesheet-container">
+<div class="container manage-list-container">
   <div class="header-content">
     <p>Manage Projects</p>
-    <div>
-      <button class="btn btn-success me-2" (click)="onAdd()">Add</button>
+    <div class="options">
+      <button class="btn btn-success" (click)="onAdd()">Add</button>
       <button class="btn btn-success" (click)="onAssign()">Assign</button>
     </div>
-   
   </div>
   <app-table-view [columnDefs]="columnDefs" [data]="data" />
 </div>
