@@ -2,20 +2,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(to bottom right, red, yellow);
   height: 100vh;
+  background-image: linear-gradient(to bottom right, red, yellow);
 
   .login-form {
-    border: 1px solid rgb(200, 195, 195);
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 50px;
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
-    background-color: white;
+    gap: 25px;
+
+    .form-title {
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 600;
+      color: #a2a7a5;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@media (max-width: 765px) {
+  .login-container {
+    .login-form{
+      max-width: 350px;
+    }
   }
 
-  .btn {
-    margin-top: 15px;
-  }
 }

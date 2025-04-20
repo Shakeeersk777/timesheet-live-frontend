@@ -1,7 +1,9 @@
 <div class="container manage-list-container">
   <div class="header-content">
     <p>Manage Timesheets</p>
-    <button class="btn btn-success" (click)="onAdd()">Add</button>
+    <div class="options">
+      <button class="btn btn-success" (click)="onAdd()">Add</button>
+    </div>
   </div>
   <app-table-view [columnDefs]="columnDefs" [data]="data" />
 </div>

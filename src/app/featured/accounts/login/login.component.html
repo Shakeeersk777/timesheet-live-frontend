@@ -1,11 +1,25 @@
 <div class="login-container">
-  <form class="login-form">
-    <label class="form-label">Employee ID</label>
-    <input type="text" class="form-control"/>
+  <form class="login-form" (submit)="onLogin()">
+    <p class="form-title">Timesheet APP</p>
 
-    <label class="form-label">Password</label>
-    <input type="password" class="form-control"/>
+    <div class="form-group">
+      <label class="form-label">Employee ID</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Enter your employee ID"
+      />
+    </div>
 
-    <button class="btn btn-primary" (click)="onLogin()">Login</button>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        placeholder="Enter your password"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
   </form>
 </div>
