@@ -50,7 +50,7 @@ export class ViewProjectsComponent {
   onAssign() {
     const dialogRef = this._dialog.open(AssignProjectComponent, {
       width: '600px',
-      maxHeight: '90vh',
+      maxHeight: '100vh',
       disableClose: false,
       autoFocus: true,
       data: {

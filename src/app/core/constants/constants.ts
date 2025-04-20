@@ -63,3 +63,8 @@ export const SIDEBAR_LIST: ISidebarItem[] = [
       isCommon: false,
     },
   ];
+
+  export enum SNACKBAR_RESPONSE_TYPE {
+    SUCCESS = 'snackbar-success',
+    ERROR = 'snackbar-error'
+  }

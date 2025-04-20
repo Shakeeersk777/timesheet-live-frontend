@@ -1,47 +1,44 @@
-<div [ngClass]="{ collapsed: isCollapsed }" class="sidebar-container">
-  <button
-    class="collapse-btn"
-    [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
-    (click)="toggleCollapse()"
-  >
-    <i
-      [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"
-    ></i>
-  </button>
+<!-- Toggle Button (Mobile Hamburger) -->
+<div
+  class="collapse-btn mobile-ellipse"
+  [ngStyle]="{ 'margin-left': openMobileViewer ? '230px' : '10px' }"
+  (click)="toggleMobileView()"
+>
+  <i class="fa fa-solid fa-bars"></i>
+</div>
 
+<!-- Sidebar Template -->
+<ng-template #sidebarContent>
   <hr />
-
   <ul class="mynav">
     @for (sidebar of sidebarList; track sidebar.key) {
-    <li
-      (click)="onSidebarChange(sidebar)"
-      [class.active]="currentTab === sidebar.key"
-    >
-      <i
-        class="{{ sidebar.icon }}"
-        [matTooltipPosition]="'right'"
-        [matTooltip]="isCollapsed ? sidebar.value : null"
-        matTooltipClass="my-custom-tooltip"
-      ></i>
-      @if (!isCollapsed) {
-      <span>{{ sidebar.value }}</span>
-      }
-    </li>
+      <li
+        (click)="onSidebarChange(sidebar)"
+        [class.active]="currentTab === sidebar.key"
+      >
+        <i
+          class="{{ sidebar.icon }}"
+          [matTooltipPosition]="'right'"
+          [matTooltip]="isCollapsed ? sidebar.value : null"
+          matTooltipClass="my-custom-tooltip"
+        ></i>
+        @if (!isCollapsed || isMobile) {
+          <span>{{ sidebar.value }}</span>
+        }
+      </li>
     }
   </ul>
-
   <hr />
-
   <div>
     <button class="btn profile-btn">
       <i
         class="fa fa-user-circle"
         [matTooltipPosition]="'right'"
-        [matTooltip]="isCollapsed ? 'Shakeer Shaik' : null"
+        [matTooltip]="isCollapsed && !isMobile ? 'Shakeer Shaik' : null"
         matTooltipClass="my-custom-tooltip"
       ></i>
-      @if (!isCollapsed) {
-      <span class="m-2">Shakeer Shaik</span>
+      @if (!isCollapsed || isMobile) {
+        <span class="m-2">Shakeer Shaik</span>
       }
     </button>
 
@@ -49,12 +46,34 @@
       <i
         class="fa fa-sign-out-alt"
         [matTooltipPosition]="'right'"
-        [matTooltip]="isCollapsed ? 'Logout' : null"
+        [matTooltip]="isCollapsed && !isMobile ? 'Logout' : null"
         matTooltipClass="my-custom-tooltip"
       ></i>
-      @if (!isCollapsed) {
-      <span class="m-2">Logout</span>
+      @if (!isCollapsed || isMobile) {
+        <span class="m-2">Logout</span>
       }
     </button>
   </div>
-</div>
+</ng-template>
+
+<!-- Desktop Sidebar -->
+@if (!isMobile) {
+  <div [ngClass]="{ collapsed: isCollapsed }" class="sidebar-container">
+    <button
+      class="collapse-btn"
+      [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
+      (click)="toggleCollapse()"
+    >
+      <i [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"></i>
+    </button>
+
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </div>
+}
+
+<!-- Mobile Sidebar -->
+@if (isMobile && openMobileViewer) {
+  <div class="sidebar-container">
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </div>
+}

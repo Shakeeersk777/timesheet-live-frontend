@@ -1,10 +1,9 @@
-<p mat-dialog-title>Assign Project</p>
+<h1 mat-dialog-title>Assign Project</h1>
 
-<mat-dialog-content>
+<mat-dialog-content class="content-container">
   <form>
     <div class="mb-3">
       <app-select-dropdown
-        formControlName="project"
         [items]="projects"
         bindLabel="name"
         bindValue="id"
@@ -13,31 +12,15 @@
       />
     </div>
     <div class="mb-3">
-      <label for="hours" class="form-label">Assign To</label>
-      <mat-form-field class="w-100">
-        <mat-chip-grid #chipGrid aria-label="Enter fruits">
-          @for (fruit of fruits(); track fruit) {
-          <mat-chip-row
-            (removed)="remove(fruit)"
-            [editable]="true"
-            (edited)="edit(fruit, $event)"
-          >
-            {{ fruit.name }}
-            <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
-              <mat-icon>cancel</mat-icon>
-            </button>
-          </mat-chip-row>
-          }
-          <input
-            class="assign-users-chip-input"
-            placeholder="Type and press Enter"
-            [matChipInputFor]="chipGrid"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
-            (matChipInputTokenEnd)="add($event)"
-          />
-        </mat-chip-grid>
-      </mat-form-field>
+      <app-select-dropdown
+        [items]="projects"
+        [multiple]="true"
+        [searchable]="true"
+        bindLabel="name"
+        bindValue="id"
+        placeholder="Select assign to"
+        label="Assign To"
+      />
     </div>
   </form>
 </mat-dialog-content>

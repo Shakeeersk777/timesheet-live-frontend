@@ -26,12 +26,9 @@
       font-weight: 600;
     }
 
-    button {
-      align-self: flex-start;
-
-      @media (min-width: 600px) {
-        align-self: unset;
-      }
+    .options {
+      display: flex;
+      gap: 15px;
     }
   }
 

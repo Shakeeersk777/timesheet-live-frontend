@@ -20,6 +20,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class SelectDropdownComponent implements ControlValueAccessor {
   @Input() label!: string;
+  @Input() multiple: boolean = false;
+  @Input() searchable: boolean = false;
   @Input() items: any[] = [];
   @Input() bindLabel: string = 'label';
   @Input() bindValue: string = 'value';

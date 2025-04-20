@@ -29,3 +29,14 @@ a,
   white-space: normal;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3);
 }
+
+//snack-bar
+::ng-deep .snackbar-success {
+  background-color: #28a745; // green
+  color: white;
+}
+
+::ng-deep .snackbar-error {
+  background-color: #dc3545; // red
+  color: white;
+}

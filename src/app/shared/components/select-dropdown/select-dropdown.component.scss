@@ -62,3 +62,26 @@
     border-color: #dc3545;
   }
 }
+
+//chips
+::ng-deep .custom-ng-select.ng-select-multiple {
+  .ng-value {
+    background-color: gray;
+    color: #fff;
+    border-radius: 4px;
+    padding: 0.25rem 0.75rem;
+    margin-right: 0.5rem;
+    font-size: 0.875rem;
+    .ng-value-label {
+      color: #fff;
+    }
+
+    .ng-value-icon {
+      color: #fff;
+      margin-right: 0.5rem;
+      &:hover {
+        color: #ccc;
+      }
+    }
+  }
+}

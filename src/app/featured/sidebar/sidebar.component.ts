@@ -21,6 +21,7 @@ export class SidebarComponent {
   isMobile = false;
   isMobileSidebarVisible = false;
   currentLoggedUser: any;
+  openMobileViewer: boolean = false;
 
   private _router = inject(Router);
   private _authService: AuthService = inject(AuthService);
@@ -51,7 +52,10 @@ export class SidebarComponent {
   checkScreenSize(): void {
     this.isMobile = window.innerWidth <= 768;
     this.isCollapsed = this.isMobile;
-    if (!this.isMobile) this.isMobileSidebarVisible = false;
+    if (!this.isMobile) {
+      this.isMobileSidebarVisible = false;
+      this.openMobileViewer = false;
+    }
   }
 
   toggleCollapse(): void {
@@ -82,6 +86,10 @@ export class SidebarComponent {
     this.sidebarList = SIDEBAR_LIST.filter(
       (item) => item.isCommon || item.isAdmin === isAdmin
     );
+  }
+
+  toggleMobileView(): void {
+    this.openMobileViewer = !this.openMobileViewer;
   }
 
   onLogout() {

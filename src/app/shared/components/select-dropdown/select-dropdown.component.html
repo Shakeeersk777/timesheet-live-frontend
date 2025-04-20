@@ -8,12 +8,13 @@
     bindLabel="name"
     bindValue="id"
     [placeholder]="placeholder"
-    [searchable]="false"
+    [searchable]="searchable"
     [clearable]="false"
     [dropdownPosition]="'bottom'"
     [fixedPlaceholder]="false"
     [(ngModel)]="value"
     [clearable]="true"
+    [multiple]="multiple"
     (ngModelChange)="setValue($event)"
   />
 </div>
