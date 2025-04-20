@@ -1,12 +1,7 @@
-<div class="container timesheet-container">
-  <div class="header-content">
-    <p>Assign Project</p>
-    <div>
-      <button class="btn btn-success me-2" (click)="onBack()">Back</button>
-      <button class="btn btn-success" (click)="onSubmit()">Assign</button>
-    </div>
-  </div>
-  <form class="timesheet-form">
+<p mat-dialog-title>Assign Project</p>
+
+<mat-dialog-content>
+  <form>
     <div class="mb-3">
       <app-select-dropdown
         formControlName="project"
@@ -19,23 +14,23 @@
     </div>
     <div class="mb-3">
       <label for="hours" class="form-label">Assign To</label>
-      <!-- <input type="number" class="form-control" /> --> 
       <mat-form-field class="w-100">
         <mat-chip-grid #chipGrid aria-label="Enter fruits">
           @for (fruit of fruits(); track fruit) {
-            <mat-chip-row
-              (removed)="remove(fruit)"
-              [editable]="true"
-              (edited)="edit(fruit, $event)"
-              [aria-description]="'press enter to edit ' + fruit.name"
-            >
-              {{fruit.name}}
-              <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
-                <mat-icon>cancel</mat-icon>
-              </button>
-            </mat-chip-row>
+          <mat-chip-row
+            (removed)="remove(fruit)"
+            [editable]="true"
+            (edited)="edit(fruit, $event)"
+          >
+            {{ fruit.name }}
+            <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
           }
           <input
+            class="assign-users-chip-input"
+            placeholder="Type and press Enter"
             [matChipInputFor]="chipGrid"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
             [matChipInputAddOnBlur]="addOnBlur"
@@ -43,8 +38,11 @@
           />
         </mat-chip-grid>
       </mat-form-field>
-      
-      
     </div>
   </form>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="btn btn-light me-2" (click)="onCancel()">Cancel</button>
+  <button class="btn btn-success" (click)="onSubmit()">Assign</button>
+</mat-dialog-actions>

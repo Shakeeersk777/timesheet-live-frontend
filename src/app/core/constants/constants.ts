@@ -62,11 +62,4 @@ export const SIDEBAR_LIST: ISidebarItem[] = [
       isAdmin: true,
       isCommon: false,
     },
-    {
-      key: 'logout',
-      value: 'Logout',
-      icon: 'fa fa-sign-out-alt',
-      url: ROUTE_NAMES.LOGIN,
-      isCommon: true,
-    },
   ];

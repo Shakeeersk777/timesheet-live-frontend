@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 interface Fruit {
   name: string;
 }
@@ -24,6 +25,7 @@ interface Fruit {
     MatFormFieldModule,
     MatChipsModule,
     MatIconModule,
+    MatDialogModule
   ],
   templateUrl: './assign-project.component.html',
   styleUrl: './assign-project.component.scss',
@@ -38,20 +40,25 @@ export class AssignProjectComponent {
     { id: 'projectB', name: 'Project B' },
     { id: 'projectB', name: 'Project B' },
     { id: 'projectB', name: 'Project B' },
+    { id: 'projectB', name: 'Project B' },
   ];
-
-  onSubmit() {}
-
-  onBack() {
-    this._router.navigateByUrl(
-      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.LIST}`
-    );
-  }
 
   readonly addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   readonly fruits = signal<Fruit[]>([]);
   readonly announcer = inject(LiveAnnouncer);
+  private _dialogRef = inject(MatDialogRef<AssignProjectComponent>);
+  private _data = inject(MAT_DIALOG_DATA);
+
+  ngOnInit(): void {}
+
+  onCancel(): void {
+    this._dialogRef.close({ success: false });
+  }
+
+  onSubmit(): void {
+    this._dialogRef.close({ success: true });
+  }
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

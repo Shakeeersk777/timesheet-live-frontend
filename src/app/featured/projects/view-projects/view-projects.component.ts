@@ -2,16 +2,20 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateEditProjectComponent } from '../create-edit-project/create-edit-project.component';
+import { AssignProjectComponent } from '../assign-project/assign-project.component';
 
 @Component({
   selector: 'app-view-projects',
   standalone: true,
-  imports: [TableViewComponent],
+  imports: [TableViewComponent, MatDialogModule],
   templateUrl: './view-projects.component.html',
-  styleUrl: './view-projects.component.scss'
+  styleUrl: './view-projects.component.scss',
 })
 export class ViewProjectsComponent {
-  _router: Router = inject(Router);
+  private _router: Router = inject(Router);
+  private _dialog: MatDialog = inject(MatDialog);
 
   columnDefs = [
     { key: 'id', header: 'ID' },
@@ -28,14 +32,34 @@ export class ViewProjectsComponent {
   ];
 
   onAdd() {
-    this._router.navigateByUrl(
-      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.CREATE}`
-    );
+    const dialogRef = this._dialog.open(CreateEditProjectComponent, {
+      width: '400px',
+      maxHeight: '90vh',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        mode: 'create',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
   }
 
   onAssign() {
-    this._router.navigateByUrl(
-      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.ASSIGN}`
-    );
+    const dialogRef = this._dialog.open(AssignProjectComponent, {
+      width: '600px',
+      maxHeight: '90vh',
+      disableClose: false,
+      autoFocus: true,
+      data: {
+        mode: 'create',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('The dialog was closed', result);
+    });
   }
 }

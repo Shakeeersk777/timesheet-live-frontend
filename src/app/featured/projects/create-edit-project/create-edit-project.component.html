@@ -1,12 +1,7 @@
-<div class="container timesheet-container">
-  <div class="header-content">
-    <p>Add Project</p>
-    <div>
-      <button class="btn btn-success me-2" (click)="onBack()">Back</button>
-      <button class="btn btn-success" (click)="onSubmit()">Create</button>
-    </div>
-  </div>
-  <form class="timesheet-form">
+<p mat-dialog-title>Add Project</p>
+
+<mat-dialog-content>
+  <form>
     <div class="mb-3">
       <label for="hours" class="form-label">Project Name</label>
       <input
@@ -21,4 +16,9 @@
       />
     </div>
   </form>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button class="btn btn-light me-2" (click)="onCancel()">Cancel</button>
+  <button class="btn btn-success" (click)="onSubmit()">Create</button>
+</mat-dialog-actions>

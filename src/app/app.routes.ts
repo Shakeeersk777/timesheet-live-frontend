@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from './shared/enums/routes.enum';
+import { CanActivateGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -9,11 +10,19 @@ export const routes: Routes = [
   },
   {
     path: ROUTE_NAMES.APP,
+    canActivate: [CanActivateGuard],
     loadComponent: () =>
       import('./featured/layout/layout.component').then(
         (component) => component.LayoutComponent
       ),
     children: [
+      {
+        path: ROUTE_NAMES.DASHBOARD,
+        loadComponent: () =>
+          import('./featured/dashboard/dashboard.component').then(
+            (component) => component.DashboardComponent
+          ),
+      },
       {
         path: ROUTE_NAMES.TIMESHEET.BASE,
         loadChildren: () =>

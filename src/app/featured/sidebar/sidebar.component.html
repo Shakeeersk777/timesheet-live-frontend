@@ -1,16 +1,9 @@
-<div
-  [ngClass]="{
-    collapsed: isCollapsed,
-  }"
-  class="sidebar-container"
-  [ngStyle]="{ display: isMobile ? 'none' : 'block' }"
->
+<div [ngClass]="{ collapsed: isCollapsed }" class="sidebar-container">
   <button
     class="collapse-btn"
     [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
     (click)="toggleCollapse()"
   >
-    <!-- <i class="fa fa-bars"></i> -->
     <i
       [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"
     ></i>
@@ -19,8 +12,8 @@
   <hr />
 
   <ul class="mynav">
+    @for (sidebar of sidebarList; track sidebar.key) {
     <li
-      *ngFor="let sidebar of sidebarList"
       (click)="onSidebarChange(sidebar)"
       [class.active]="currentTab === sidebar.key"
     >
@@ -30,21 +23,38 @@
         [matTooltip]="isCollapsed ? sidebar.value : null"
         matTooltipClass="my-custom-tooltip"
       ></i>
-      <span *ngIf="!isCollapsed">{{ sidebar.value }}</span>
+      @if (!isCollapsed) {
+      <span>{{ sidebar.value }}</span>
+      }
     </li>
+    }
   </ul>
 
   <hr />
 
-  <button class="btn profile-btn">
-    <i
-      class="fa fa-user-circle"
-      [matTooltipPosition]="'right'"
-      [matTooltip]="isCollapsed ? 'Shakeer Shaik' : null"
-      matTooltipClass="my-custom-tooltip"
-    ></i>
-    @if (!isCollapsed) {
-    <span class="m-2">Shakeer Shaik</span>
-    }
-  </button>
+  <div>
+    <button class="btn profile-btn">
+      <i
+        class="fa fa-user-circle"
+        [matTooltipPosition]="'right'"
+        [matTooltip]="isCollapsed ? 'Shakeer Shaik' : null"
+        matTooltipClass="my-custom-tooltip"
+      ></i>
+      @if (!isCollapsed) {
+      <span class="m-2">Shakeer Shaik</span>
+      }
+    </button>
+
+    <button class="btn profile-btn" (click)="onLogout()">
+      <i
+        class="fa fa-sign-out-alt"
+        [matTooltipPosition]="'right'"
+        [matTooltip]="isCollapsed ? 'Logout' : null"
+        matTooltipClass="my-custom-tooltip"
+      ></i>
+      @if (!isCollapsed) {
+      <span class="m-2">Logout</span>
+      }
+    </button>
+  </div>
 </div>

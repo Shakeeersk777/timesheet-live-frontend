@@ -1,24 +1,40 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-edit-project',
   standalone: true,
-  imports: [],
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatDialogModule,
+  ],
   templateUrl: './create-edit-project.component.html',
   styleUrl: './create-edit-project.component.scss',
 })
-export class CreateEditProjectComponent {
-  _formBuilder = inject(FormBuilder);
-  _router: Router = inject(Router);
+export class CreateEditProjectComponent implements OnInit {
+  private _formBuilder = inject(FormBuilder);
+  private _dialogRef = inject(MatDialogRef<CreateEditProjectComponent>);
+  private _data = inject(MAT_DIALOG_DATA);
 
-  onSubmit() {}
+  ngOnInit(): void {}
+  
+  onCancel(): void {
+    this._dialogRef.close({ success: false });
+  }
 
-  onBack() {
-    this._router.navigateByUrl(
-      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.LIST}`
-    );
+  onSubmit(): void {
+    this._dialogRef.close({ success: true });
   }
 }
