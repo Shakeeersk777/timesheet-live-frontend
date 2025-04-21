@@ -1,6 +1,5 @@
 .manage-list-container {
-  max-width: 900px;;
-  height: 100vh;
+  max-width: 900px;
   margin: 5vh auto;
   padding: 2rem;
   background-color: #fff;
@@ -9,35 +8,45 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 
   .header-content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: flex-start;
     gap: 1rem;
 
     p {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 600;
+      color: #333;
+      text-align: left;
+      word-break: break-word;
     }
 
     .options {
       display: flex;
       gap: 10px;
-
-      button {
-        align-self: flex-start;
-
-        @media (min-width: 600px) {
-          align-self: unset;
-        }
-      }
     }
 
     @media (min-width: 600px) {
       flex-direction: row;
       align-items: center;
+
+      p {
+        font-size: 1.8rem;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 400px) {
+      p {
+        font-size: 1.3rem;
+      }
     }
   }
+
 }
