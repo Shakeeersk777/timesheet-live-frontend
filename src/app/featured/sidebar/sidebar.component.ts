@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, inject } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { filter } from 'rxjs';
 import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
 import { SIDEBAR_LIST } from '../../core/constants/constants';
 import { ISidebarItem } from '../../core/models/models.interfece';
-import { filter } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -15,89 +15,78 @@ import { AuthService } from '../../core/services/auth.service';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {
-  currentTab: string = 'dashboard';
+export class SidebarComponent implements OnInit {
+  currentTab = 'dashboard';
   isCollapsed = false;
   isMobile = false;
-  isMobileSidebarVisible = false;
+  sidebarList: ISidebarItem[] = [];
   currentLoggedUser: any;
-  openMobileViewer: boolean = false;
 
   private _router = inject(Router);
-  private _authService: AuthService = inject(AuthService);
-
-  sidebarList: ISidebarItem[] = [];
+  private _authService = inject(AuthService);
 
   ngOnInit(): void {
-    this.getCurrentUserData();
-    this.setActiveTabBasedOnRoute();
-    this.checkScreenSize();
+    this.loadUserData();
+    this.updateActiveTab();
+    this.updateResponsiveState();
 
-    // Subscribe to route changes
     this._router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.setActiveTabBasedOnRoute();
-      });
+      .subscribe(() => this.updateActiveTab());
   }
 
-  private setActiveTabBasedOnRoute(): void {
+  private updateActiveTab(): void {
     const currentUrl = this._router.url;
-    const matchedItem = this.sidebarList.find(
+    const matched = this.sidebarList.find(
       (item) => currentUrl === `/app/${item.url}`
     );
-    this.currentTab = matchedItem?.key ?? '';
+    this.currentTab = matched?.key ?? '';
   }
 
-  checkScreenSize(): void {
+  private loadUserData(): void {
+    this.currentLoggedUser = this._authService.getCurrentUser();
+    const isAdmin = this.currentLoggedUser?.isAdmin ?? false;
+    this.sidebarList = SIDEBAR_LIST.filter(
+      (item) => item.isCommon || item.isAdmin === isAdmin
+    );
+  }
+
+  @HostListener('window:resize')
+  updateResponsiveState(): void {
     this.isMobile = window.innerWidth <= 768;
+    this.toggleMobileNavbarIcon(!this.isMobile);
     this.isCollapsed = this.isMobile;
-    if (!this.isMobile) {
-      this.isMobileSidebarVisible = false;
-      this.openMobileViewer = false;
-    }
   }
 
   toggleCollapse(): void {
     this.isCollapsed = !this.isCollapsed;
   }
 
-  toggleMobileSidebar(): void {
-    this.isMobileSidebarVisible = !this.isMobileSidebarVisible;
-  }
-
   onSidebarChange(item: ISidebarItem): void {
     this.currentTab = item.key;
+    this._router.navigateByUrl(`${ROUTE_NAMES.APP}/${item.url}`);
+    this.toggleMobileNavbar();
+  }
 
-    const targetUrl = `${ROUTE_NAMES.APP}/${item.url}`;
-
-    this._router.navigateByUrl(targetUrl);
-
-    if (this.isMobile) {
-      this.isMobileSidebarVisible = false;
+  toggleMobileNavbarIcon(show: boolean) {
+    if (show) {
+      document
+        .getElementById('mobile-nav-bar-icon')
+        ?.classList.add('show-mobile-nav-icon');
+    } else {
+      document
+        .getElementById('mobile-nav-bar-icon')
+        ?.classList.remove('show-mobile-nav-icon');
     }
   }
 
-  getCurrentUserData() {
-    this.currentLoggedUser = this._authService.getCurrentUser();
-
-    const isAdmin = this.currentLoggedUser?.isAdmin ?? false;
-
-    this.sidebarList = SIDEBAR_LIST.filter(
-      (item) => item.isCommon || item.isAdmin === isAdmin
-    );
+  toggleMobileNavbar() {
+    document
+      .getElementById('mobile-viewer')
+      ?.classList.toggle('show-mobile-viewer');
   }
 
-  toggleMobileView(): void {
-    this.openMobileViewer = !this.openMobileViewer;
-  }
-
-  onLogout() {
+  onLogout(): void {
     this._authService.logout();
-  }
-
-  @HostListener('window:resize')
-  onWindowResize(): void {
-    this.checkScreenSize();
   }
 }

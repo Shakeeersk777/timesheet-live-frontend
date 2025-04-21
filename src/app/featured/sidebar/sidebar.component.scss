@@ -3,30 +3,28 @@
   top: 0;
   left: 0;
   height: 100vh;
+  width: 230px;
   background-color: #198754;
   color: #fff;
-  font-size: 15px;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  transition: all 0.2s;
-  z-index: 1000;
-  width: 230px;
-
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: width 0.3s ease;
+  z-index: 1;
   ul {
+    flex: 1;
     list-style: none;
     padding: 0;
-    margin: 0;
-    flex: 1;
 
     li {
       display: flex;
       align-items: center;
       padding: 10px;
+      margin: 5px 0;
       border-radius: 6px;
-      margin: 5px;
       cursor: pointer;
-      transition: background-color 0.2s, color 0.2s;
+      transition: all 0.3s;
 
       i {
         margin-right: 10px;
@@ -45,11 +43,10 @@
   }
 
   .collapse-btn {
-    color: white;
-    background-color: transparent;
-    cursor: pointer;
+    background: transparent;
     border: none;
-    transition: all 0.5s;
+    color: white;
+    cursor: pointer;
 
     i {
       font-size: 20px;
@@ -59,74 +56,50 @@
   &.collapsed {
     width: 80px;
 
-    .user-type {
+    .user-type,
+    li span {
       display: none;
     }
 
     li {
-      width: 40px;
+      justify-content: center;
     }
   }
-
-  .profile-btn {
-    color: white;
-  }
 }
-
-.mobile-ellipse {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  color: #fff;
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  transition: all 0.2s;
-  z-index: 1000;
-  color: black;
-}
-
 
 .sidebar-container-mobile {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 15px;
   padding: 1rem;
   justify-content: center;
-  background-color: #ffffff;
-  margin: 0.5rem;
-  position: absolute;
-  top: 65px;
+  background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
+  position: absolute;
+  top: 65px;
+  width: 100%;
 
   .sidebar-box {
+    width: 45%;
+    height: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 90px;
-    height: 90px;
-    padding: 0.75rem;
     border-radius: 12px;
     background-color: #f8f9fa;
     color: #34495e;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
     text-align: center;
+    transition: all 0.3s;
 
     i {
-      font-size: 1.2rem;
-      margin-bottom: 6px;
+      font-size: 1rem;
     }
 
     span {
-      font-size: 0.95rem;
-      font-weight: 500;
+      font-size: 0.85rem;
     }
 
     &:hover {
@@ -137,30 +110,10 @@
     &.active {
       background-color: #16a085;
       color: #fff;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
   }
+}
 
-  @media (max-width: 768px) {
-    .sidebar-box {
-      width: 80px;
-      height: 80px;
-
-      i {
-        font-size: 1rem;
-      }
-
-      span {
-        font-size: 0.85rem;
-      }
-    }
-  }
-
-  @media (max-width: 480px) {
-    justify-content: space-between;
-    .sidebar-box {
-      width: 45%;
-      height: 80px;
-    }
-  }
+.show-mobile-viewer {
+  display: none;
 }

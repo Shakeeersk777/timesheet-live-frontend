@@ -1,61 +1,48 @@
-<div
-  class="collapse-btn mobile-ellipse"
-  [ngStyle]="{ 'margin-left': '10px' }"
-  (click)="toggleMobileView()"
->
-  <i class="fa fa-solid fa-bars"></i>
-</div>
-
 <ng-template #sidebarContent>
   <hr />
   <ul class="mynav">
     @for (sidebar of sidebarList; track sidebar.key) {
-    <li
-      (click)="onSidebarChange(sidebar)"
-      [class.active]="currentTab === sidebar.key"
-    >
-      <i
-        class="{{ sidebar.icon }}"
-        [matTooltipPosition]="'right'"
-        [matTooltip]="isCollapsed ? sidebar.value : null"
-        matTooltipClass="my-custom-tooltip"
-      ></i>
-      @if (!isCollapsed || isMobile) {
-      <span>{{ sidebar.value }}</span>
-      }
-    </li>
+      <li
+        (click)="onSidebarChange(sidebar)"
+        [class.active]="currentTab === sidebar.key"
+      >
+        <i
+          class="{{ sidebar.icon }}"
+          [matTooltipPosition]="'right'"
+          [matTooltip]="isCollapsed ? sidebar.value : null"
+          matTooltipClass="my-custom-tooltip"
+        ></i>
+        @if (!isCollapsed) {
+          <span>{{ sidebar.value }}</span>
+        }
+      </li>
     }
   </ul>
 </ng-template>
 
 @if (!isMobile) {
-<div [ngClass]="{ collapsed: isCollapsed }" class="sidebar-container">
-  <button
-    class="collapse-btn"
-    [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
-    (click)="toggleCollapse()"
-  >
-    <i
-      [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"
-    ></i>
-  </button>
+  <div [ngClass]="{ collapsed: isCollapsed }" class="sidebar-container">
+    <button
+      class="collapse-btn"
+      [ngStyle]="{ 'margin-left': isCollapsed ? '10px' : '170px' }"
+      (click)="toggleCollapse()"
+    >
+      <i [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"></i>
+    </button>
 
-  <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </div>
+}
+
+<div class="sidebar-container-mobile show-mobile-viewer" id="mobile-viewer">
+  @for (sidebar of sidebarList; track sidebar.key) {
+    <div
+      class="sidebar-box"
+      (click)="onSidebarChange(sidebar)"
+      [class.active]="currentTab === sidebar.key"
+    >
+      <i class="{{ sidebar.icon }}"></i>
+      <span>{{ sidebar.value }}</span>
+    </div>
+  }
 </div>
-}
-
-@if (isMobile && openMobileViewer) {
-  <div class="sidebar-container-mobile">
-    @for (sidebar of sidebarList; track sidebar.key) {
-      <div
-        class="sidebar-box"
-        (click)="onSidebarChange(sidebar)"
-        [class.active]="currentTab === sidebar.key"
-      >
-        <i class="{{ sidebar.icon }}"></i>
-        <span>{{ sidebar.value }}</span>
-      </div>
-    }
-  </div>  
-}
-
