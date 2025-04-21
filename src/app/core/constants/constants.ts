@@ -58,7 +58,7 @@ export const SIDEBAR_LIST: ISidebarItem[] = [
       key: 'reports',
       value: 'Reports',
       icon: 'fa fa-chart-bar',
-      url: `${ROUTE_NAMES.TIMESHEET.BASE}/reports`,
+      url: `${ROUTE_NAMES.REPORT.BASE}/${ROUTE_NAMES.REPORT.LIST}`,
       isAdmin: true,
       isCommon: false,
     },

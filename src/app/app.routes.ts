@@ -44,6 +44,13 @@ export const routes: Routes = [
             (routes) => routes.tasksRoutes
           ),
       },
+      {
+        path: ROUTE_NAMES.REPORT.BASE,
+        loadChildren: () =>
+          import('./featured/reports/report.routes').then(
+            (routes) => routes.reportsRoutes
+          ),
+      },
     ],
   },
   {

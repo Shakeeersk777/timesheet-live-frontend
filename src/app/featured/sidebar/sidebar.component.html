@@ -28,32 +28,6 @@
       </li>
     }
   </ul>
-  <hr />
-  <div>
-    <button class="btn profile-btn">
-      <i
-        class="fa fa-user-circle"
-        [matTooltipPosition]="'right'"
-        [matTooltip]="isCollapsed && !isMobile ? 'Shakeer Shaik' : null"
-        matTooltipClass="my-custom-tooltip"
-      ></i>
-      @if (!isCollapsed || isMobile) {
-        <span class="m-2">Shakeer Shaik</span>
-      }
-    </button>
-
-    <button class="btn profile-btn" (click)="onLogout()">
-      <i
-        class="fa fa-sign-out-alt"
-        [matTooltipPosition]="'right'"
-        [matTooltip]="isCollapsed && !isMobile ? 'Logout' : null"
-        matTooltipClass="my-custom-tooltip"
-      ></i>
-      @if (!isCollapsed || isMobile) {
-        <span class="m-2">Logout</span>
-      }
-    </button>
-  </div>
 </ng-template>
 
 <!-- Desktop Sidebar -->

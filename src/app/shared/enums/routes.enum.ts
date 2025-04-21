@@ -24,4 +24,8 @@ export const ROUTE_NAMES = {
     EDIT: 'edit-task',
     LIST: 'manage-tasks',
   },
+  REPORT: {
+    BASE: 'reports',
+    LIST: 'manage-reports',
+  },
 } as const;
