@@ -65,7 +65,9 @@ export class SidebarComponent implements OnInit {
   onSidebarChange(item: ISidebarItem): void {
     this.currentTab = item.key;
     this._router.navigateByUrl(`${ROUTE_NAMES.APP}/${item.url}`);
-    this.toggleMobileNavbar();
+    if (this.isMobile) {
+      this.toggleMobileNavbar();
+    }
   }
 
   toggleMobileNavbarIcon(show: boolean) {
