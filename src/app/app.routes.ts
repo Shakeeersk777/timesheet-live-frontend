@@ -10,7 +10,7 @@ export const routes: Routes = [
   },
   {
     path: ROUTE_NAMES.APP,
-    canActivate: [CanActivateGuard],
+    // canActivate: [CanActivateGuard],
     loadComponent: () =>
       import('./featured/layout/layout.component').then(
         (component) => component.LayoutComponent

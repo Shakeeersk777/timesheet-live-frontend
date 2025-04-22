@@ -6,3 +6,9 @@ export interface ISidebarItem {
   isAdmin?: boolean;
   isCommon?: boolean;
 }
+
+export interface IApiResponce {
+  _status: boolean;
+  _msg: string;
+  _data: any
+}

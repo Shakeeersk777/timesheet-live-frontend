@@ -1,6 +1,6 @@
 <div class="mat-table-wrapper">
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z2 w-100">
-
+    
     <!-- Dynamic Columns -->
     <ng-container *ngFor="let col of columnDefs" [matColumnDef]="col.key">
       <th mat-header-cell *matHeaderCellDef>{{ col.header }}</th>
@@ -23,5 +23,13 @@
     <!-- Header and Rows -->
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
     <tr mat-row *matRowDef="let row; columns: columns"></tr>
+
+    <!-- No Data Row -->
+    <tr class="no-data-row" *matNoDataRow>
+      <td [attr.colspan]="columns.length">
+        No Records Found
+      </td>
+    </tr>
+    
   </table>
 </div>

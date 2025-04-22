@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AccountsService } from '../accounts.service';
+import { IApiResponce } from '../../../core/models/models.interfece';
 
 @Component({
   selector: 'app-login',
@@ -40,11 +41,10 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    const onSuccess = (res: any): void => {
-      this._layoutService.openSnackBar(
-        res?._msg,
-        SNACKBAR_RESPONSE_TYPE.SUCCESS
-      );
+    const onSuccess = (res: IApiResponce): void => {
+      if (!res) return;
+
+      this._layoutService.openSnackBar(res._msg, res._status);
 
       if (res._status) {
         this._authService.setCurrentUser(res._data);
@@ -67,5 +67,4 @@ export class LoginComponent implements OnInit {
       .login(this.loginForm.getRawValue())
       .subscribe(observer);
   }
-
 }

@@ -42,7 +42,7 @@ $sidebar-item-padding: 10px;
 $sidebar-item-margin: 5px 0;
 $sidebar-item-border-radius: 6px;
 $sidebar-item-font-size: 1rem;
-$sidebar-item-hover-font-weight: bolder;
+$sidebar-item-hover-font-weight: bold;
 
 // Sidebar Container
 .sidebar-container {
@@ -85,7 +85,7 @@ $sidebar-item-hover-font-weight: bolder;
       &.active {
         background-color: $sidebar-active-bg-color;
         color: $sidebar-active-text-color;
-        font-weight: bolder;
+        font-weight: bold;
       }
     }
   }
