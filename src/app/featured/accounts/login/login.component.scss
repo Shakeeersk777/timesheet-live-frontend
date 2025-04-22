@@ -1,9 +1,12 @@
+@import "../../../styles/variables";
+
 .login-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: linear-gradient(to bottom right, red, yellow);
+  // background-image: linear-gradient(to bottom right, red, yellow);
+  background-color: $main-area-bg-color;
 
   .login-form {
     background-color: #ffffff;

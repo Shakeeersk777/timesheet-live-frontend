@@ -15,7 +15,7 @@
     align-items: center;
 
     .logo-img {
-      height: 45px; // Clean height to fit header
+      height: 45px; 
       width: auto;
       object-fit: contain;
     }
@@ -28,7 +28,7 @@
     transition: color 0.3s ease;
 
     &:hover {
-      color: #1abc9c;
+      color: #198754;;
     }
   }
 
@@ -48,8 +48,7 @@
       }
 
       &:hover {
-        color: #1abc9c;
-        transform: scale(1.05);
+        color: #198754;;
       }
     }
   }

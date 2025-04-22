@@ -1,6 +1,6 @@
 <div class="login-container">
-  <form class="login-form" (submit)="onLogin()">
-    <div class="mb-4">
+  <form class="login-form" [formGroup]="loginForm" (submit)="onLogin()">
+    <div class="m-0">
       <img
         src="assets/images/logo.png"
         alt="Logo"
@@ -16,6 +16,7 @@
         type="text"
         class="form-control"
         placeholder="Enter your employee ID"
+        formControlName="employeeId"
       />
     </div>
 
@@ -25,6 +26,7 @@
         type="password"
         class="form-control"
         placeholder="Enter your password"
+        formControlName="password"
       />
     </div>
 

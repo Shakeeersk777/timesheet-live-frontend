@@ -10,6 +10,14 @@ export const SIDEBAR_LIST: ISidebarItem[] = [
       isCommon: true,
     },
     {
+      key: 'employees',
+      value: 'Employees',
+      icon: 'fa fa-users',
+      url: `${ROUTE_NAMES.EMPLOYEE.BASE}/${ROUTE_NAMES.EMPLOYEE.LIST}`,
+      isAdmin: true,
+      isCommon: false,
+    },    
+    {
       key: 'projects',
       value: 'Projects',
       icon: 'fa fa-folder-open',

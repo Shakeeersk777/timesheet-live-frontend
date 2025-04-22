@@ -5,27 +5,34 @@ export const ROUTE_NAMES = {
   LOGIN: 'login',
   LOGOUT: 'logout',
   DASHBOARD: 'dashboard',
+  EMPLOYEE: {
+    BASE: 'employees',
+    CREATE: 'create',
+    EDIT: 'edit',
+    LIST: 'manage',
+    OVERVIEW: 'overview'
+  },
   TIMESHEET: {
     BASE: 'timesheets',
-    CREATE: 'create-timesheet',
-    EDIT: 'edit-timesheet',
-    LIST: 'manage-timesheets',
+    CREATE: 'create',
+    EDIT: 'edit',
+    LIST: 'manage',
   },
   PROJECT: {
-    BASE: 'timesheets',
-    CREATE: 'create-project',
-    EDIT: 'edit-project',
-    LIST: 'manage-projects',
-    ASSIGN: 'assign-project'
+    BASE: 'projects',
+    CREATE: 'create',
+    EDIT: 'edit',
+    LIST: 'manage',
+    ASSIGN: 'assign',
   },
   TASK: {
-    BASE: 'timesheets',
-    CREATE: 'create-task',
-    EDIT: 'edit-task',
-    LIST: 'manage-tasks',
+    BASE: 'tasks',
+    CREATE: 'create',
+    EDIT: 'edit',
+    LIST: 'manage',
   },
   REPORT: {
     BASE: 'reports',
-    LIST: 'manage-reports',
+    LIST: 'manage',
   },
 } as const;

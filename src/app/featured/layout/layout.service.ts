@@ -12,7 +12,6 @@ export class LayoutService {
       duration: 3000, // milliseconds
       horizontalPosition: 'right', // or 'left', 'center'
       verticalPosition: 'top', // or 'bottom'
-      panelClass: [type], // optional custom styling
     });
   }
 }

@@ -24,10 +24,10 @@ export const routes: Routes = [
           ),
       },
       {
-        path: ROUTE_NAMES.TIMESHEET.BASE,
+        path: ROUTE_NAMES.EMPLOYEE.BASE,
         loadChildren: () =>
-          import('./featured/timesheets/timesheet.routes').then(
-            (routes) => routes.timesheetRoutes
+          import('./featured/employees/employees.routes').then(
+            (routes) => routes.employeeRoutes
           ),
       },
       {
@@ -42,6 +42,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./featured/tasks/task.routes').then(
             (routes) => routes.tasksRoutes
+          ),
+      },
+      {
+        path: ROUTE_NAMES.TIMESHEET.BASE,
+        loadChildren: () =>
+          import('./featured/timesheets/timesheet.routes').then(
+            (routes) => routes.timesheetRoutes
           ),
       },
       {

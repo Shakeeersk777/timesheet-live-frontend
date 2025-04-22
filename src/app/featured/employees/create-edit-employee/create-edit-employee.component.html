@@ -1,0 +1,41 @@
+<div class="container timesheet-container">
+    <div class="header-content">
+      <p>Add Employee</p>
+      <div class="options">
+        <button class="btn btn-success" (click)="onBack()">Back</button>
+        <button class="btn btn-success" (click)="onSubmit()">Create</button>
+      </div>
+    </div>
+    <form class="timesheet-form">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control"
+          placeholder="Enter employee name"
+        />
+      </div>
+  
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter employee email"
+        />
+      </div>
+  
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          class="form-control"
+          placeholder="Enter employee password"
+        />
+      </div>
+    </form>
+  </div>
+  

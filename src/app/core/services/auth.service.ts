@@ -8,11 +8,11 @@ import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
 export class AuthService {
   private _router = inject(Router);
 
-  setCurrentUser() {
+  setCurrentUser(data: any) {
     const currentUser = {
       isAdmin: true,
     };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    localStorage.setItem('currentUser', JSON.stringify(data));
   }
 
   getCurrentUser() {
