@@ -1,4 +1,4 @@
-<div class="container timesheet-container">
+<div class="container form-container">
   <div class="header-content">
     <p>{{ isEditMode ? "Edit Employee" : "Add Employee" }}</p>
     <div class="options">
@@ -12,7 +12,7 @@
       </button>
     </div>
   </div>
-  <form class="timesheet-form" [formGroup]="createEditForm">
+  <form class="common-form" [formGroup]="createEditForm">
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
       <input

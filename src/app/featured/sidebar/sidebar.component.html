@@ -90,7 +90,7 @@
       (click)="onSidebarChange(sidebar)"
       [class.active]="currentTab === sidebar.key"
     >
-      <i class="{{ sidebar.icon }}"></i>
+      <i class="{{ sidebar.icon }}" [class.active]="currentTab === sidebar.key"></i>
       <span>{{ sidebar.value }}</span>
     </div>
   }

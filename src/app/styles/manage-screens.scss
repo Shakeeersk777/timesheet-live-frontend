@@ -25,9 +25,17 @@
       word-break: break-word;
     }
 
+    
     .options {
       display: flex;
       gap: 10px;
+
+      button {
+        @media (max-width: 480px) {
+          padding: 0.25rem 0.5rem;
+          font-size: 0.8rem;
+        }
+      }
     }
 
     @media (min-width: 600px) {

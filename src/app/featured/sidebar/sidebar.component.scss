@@ -1,4 +1,4 @@
-@import '../../styles/variables';
+@import "../../styles/variables";
 
 // Desktop Sidebar
 $desktop-sidebar-bg-color: $primary-bg-color;
@@ -74,20 +74,25 @@ $sidebar-item-hover-font-weight: bold;
       cursor: pointer;
       transition: all 0.3s;
 
-      i {
-        margin-right: 10px;
-        transition: all 0.15s;
-      }
-
       &:hover {
         font-weight: $sidebar-item-hover-font-weight;
-        transition: all 0.15s;
+
+        i {
+          transform: scale(1.1);
+        }
       }
 
       &.active {
         background-color: $sidebar-active-bg-color;
         color: $sidebar-active-text-color;
-        font-weight: bold;
+        i {
+          transform: scale(1.1);
+        }
+      }
+
+      i {
+        margin: 3px;
+        transition: all 0.15s ease-in-out;
       }
     }
   }
