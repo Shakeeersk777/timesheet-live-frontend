@@ -6,7 +6,7 @@
     </div>
   </div>
   <app-table-view
-    [columnDefs]="columnDefs"
+    [columns]="columnDefs"
     [data]="employeeList"
     (deleteEmit)="deleteEmployee($event)"
     (editEmit)="updateEmployee($event)"

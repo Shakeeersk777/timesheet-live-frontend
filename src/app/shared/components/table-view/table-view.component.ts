@@ -20,7 +20,7 @@ import { Subject } from 'rxjs';
   styleUrl: './table-view.component.scss',
 })
 export class TableViewComponent implements OnInit, OnDestroy {
-  @Input() columnDefs: { key: string; header: string }[] = [];
+  @Input() columns: { key: string; header: string }[] = [];
   @Input() data: any[] = [];
   @Output() deleteEmit = new EventEmitter<any>();
   @Output() editEmit = new EventEmitter<any>();
@@ -28,10 +28,6 @@ export class TableViewComponent implements OnInit, OnDestroy {
   destroyIdentifier$ = new Subject();
 
   private _layoutService: LayoutService = inject(LayoutService);
-
-  get columns(): string[] {
-    return [...this.columnDefs.map((col) => col.key), 'actions'];
-  }
 
   ngOnInit(): void {
     this.listenLoaderState();

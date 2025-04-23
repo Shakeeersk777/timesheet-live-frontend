@@ -1,18 +1,17 @@
 <p mat-dialog-title>Add Project</p>
 
 <mat-dialog-content>
-  <form>
+  <form [formGroup]="createEProjectForm">
     <div class="mb-3">
       <label for="hours" class="form-label">Project Name</label>
-      <input
-        class="form-control"
-      />
+      <input class="form-control" formControlName="projectName" />
     </div>
     <div class="mb-3">
       <label for="hours" class="form-label">Allocate hours</label>
       <input
         type="number"
         class="form-control"
+        formControlName="allocateHours"
       />
     </div>
   </form>
@@ -20,5 +19,5 @@
 
 <mat-dialog-actions>
   <button class="btn btn-light me-2" (click)="onCancel()">Cancel</button>
-  <button class="btn btn-success" (click)="onSubmit()">Create</button>
+  <button class="btn btn-success" (click)="submitForm()">Create</button>
 </mat-dialog-actions>

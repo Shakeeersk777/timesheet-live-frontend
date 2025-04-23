@@ -6,5 +6,10 @@
       <button class="btn btn-success" (click)="onAssign()">Assign</button>
     </div>
   </div>
-  <app-table-view [columnDefs]="columnDefs" [data]="data" />
+  <app-table-view
+    [columns]="columns"
+    [data]="projectList"
+    (deleteEmit)="deleteProject($event)"
+    (editEmit)="onUpdate($event)"
+  />
 </div>

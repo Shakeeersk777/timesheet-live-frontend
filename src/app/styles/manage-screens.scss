@@ -12,40 +12,23 @@
   .header-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
     gap: 1rem;
-
-    p {
-      margin: 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #333;
-      text-align: left;
-      word-break: break-word;
-    }
-
-    
-    .options {
-      display: flex;
-      gap: 10px;
-
-      button {
-        @media (max-width: 480px) {
-          padding: 0.25rem 0.5rem;
-          font-size: 0.8rem;
-        }
-      }
-    }
+    justify-content: space-between;
 
     @media (min-width: 600px) {
       flex-direction: row;
       align-items: center;
+    }
 
-      p {
-        font-size: 1.8rem;
-        text-align: left;
-      }
+    p {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .options {
+      display: flex;
+      gap: 15px;
     }
 
     @media (max-width: 400px) {
@@ -56,3 +39,21 @@
   }
 
 }
+
+@media (max-width: 480px) {
+  .manage-list-container {
+    padding: 1.25rem;
+
+    .header-content {
+      h2 {
+        font-size: 1.25rem;
+      }
+
+      button {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+

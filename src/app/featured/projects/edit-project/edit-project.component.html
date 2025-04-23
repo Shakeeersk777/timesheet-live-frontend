@@ -1,0 +1,40 @@
+<div class="container form-container">
+  <div class="header-content">
+    <p>Edit Project</p>
+    <div class="options">
+      <button class="btn btn-success" (click)="onBack()">Back</button>
+      <button class="btn btn-success" (click)="onSubmit()">Create</button>
+    </div>
+  </div>
+
+  <form class="common-form" [formGroup]="editProjectForm">
+    <div class="mb-3">
+      <label for="hours" class="form-label">Project Name</label>
+      <input class="form-control" formControlName="projectName" />
+    </div>
+
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="status"
+        formControlName="allocateHours"
+      />
+      <label class="form-check-label" for="status">Status</label>
+    </div>
+
+    <div class="mb-3">
+      <label for="hours" class="form-label">Hours</label>
+      <input
+        type="time"
+        pattern="^([01][0-9]|2[0-3]):00$"
+        class="form-control"
+        id="hours"
+        name="hours"
+        min="0"
+        max="24"
+        required
+      />
+    </div>
+  </form>
+</div>

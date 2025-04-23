@@ -13,7 +13,7 @@ import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 export class ViewTimesheetsComponent {
   _router: Router = inject(Router);
 
-  columnDefs = [
+  columns = [
     { key: 'id', header: 'ID' },
     { key: 'name', header: 'Name' },
     { key: 'role', header: 'Role' },

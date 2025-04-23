@@ -2,14 +2,14 @@
   <table class="table table-hover table-bordered align-middle">
     <thead class="table-light">
       <tr>
-        <th *ngFor="let col of columnDefs" scope="col">{{ col.header }}</th>
+        <th *ngFor="let col of columns" scope="col">{{ col.header }}</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
       @if (showLoader) {
         <tr>
-          <td [attr.colspan]="columnDefs.length + 1" class="text-center p-4">
+          <td [attr.colspan]="columns.length + 1" class="text-center p-4">
             <div class="spinner-border" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
@@ -18,7 +18,7 @@
       } @else if (data.length > 0) {
         @for (element of data; track $index) {
           <tr>
-            @for (col of columnDefs; track $index) {
+            @for (col of columns; track $index) {
               <td>{{ element[col.key] || 'N/A' }}</td>
             }
             <td>
@@ -33,7 +33,7 @@
         }
       } @else {
         <tr class="no-data-row">
-          <td [attr.colspan]="columnDefs.length + 1" class="text-center py-3">
+          <td [attr.colspan]="columns.length + 1" class="text-center py-3">
             No Records Found
           </td>
         </tr>
