@@ -51,6 +51,8 @@ export class ViewEmployeesComponent implements OnInit {
         this.employeeList = [];
         this._layoutService.openSnackBar(res._msg, res._status);
       }
+
+      this._layoutService.stopTableLoaderState();
     };
 
     const onError = (error: any): void => {};
@@ -64,18 +66,24 @@ export class ViewEmployeesComponent implements OnInit {
   }
 
   deleteEmployee(employee: IEmployee) {
+    this._layoutService.showTableLoaderState();
+
     const onSuccess = (res: IApiResponce): void => {
       if (!res) return;
 
       this._layoutService.openSnackBar(res._msg, res._status);
 
-      if (res._status) {
-        this.getEmployees();
-      } else {
+      if (!res._status) {
+        this._layoutService.showTableLoaderState();
+        return;
       }
+
+      this.getEmployees();
     };
 
-    const onError = (error: any): void => {};
+    const onError = (error: any): void => {
+      this._layoutService.showTableLoaderState();
+    };
 
     const observer = {
       next: onSuccess,
@@ -83,5 +91,11 @@ export class ViewEmployeesComponent implements OnInit {
     };
 
     this._employeeService.deleteEmployee(employee.EmpId).subscribe(observer);
+  }
+
+  updateEmployee(employee: IEmployee) {
+    this._router.navigateByUrl(
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.EMPLOYEE.BASE}/${ROUTE_NAMES.EMPLOYEE.EDIT}/${employee.EmpId}`
+    );
   }
 }

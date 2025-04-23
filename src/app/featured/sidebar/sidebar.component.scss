@@ -49,7 +49,7 @@ $sidebar-item-hover-font-weight: bold;
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100dvh;
   width: $sidebar-width;
   background-color: $desktop-sidebar-bg-color;
   color: $desktop-sidebar-text-color;
@@ -76,10 +76,12 @@ $sidebar-item-hover-font-weight: bold;
 
       i {
         margin-right: 10px;
+        transition: all 0.15s;
       }
 
       &:hover {
         font-weight: $sidebar-item-hover-font-weight;
+        transition: all 0.15s;
       }
 
       &.active {

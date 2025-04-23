@@ -46,8 +46,12 @@ export class SidebarComponent implements OnInit {
   private loadUserData(): void {
     this.currentLoggedUser = this._authService.getCurrentUser();
     const isAdmin = this.currentLoggedUser?.isAdmin ?? false;
+    // this.sidebarList = SIDEBAR_LIST.filter(
+    //   (item) => item.isCommon || item.isAdmin === isAdmin
+    // );
+
     this.sidebarList = SIDEBAR_LIST.filter(
-      (item) => item.isCommon || item.isAdmin === isAdmin
+      (item) => item.isCommon || item.isAdmin === true
     );
   }
 

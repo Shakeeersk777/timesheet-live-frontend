@@ -11,7 +11,7 @@ export const employeeRoutes: Routes = [
     title: 'Add Employee',
   },
   {
-    path: ROUTE_NAMES.EMPLOYEE.EDIT,
+    path: `${ROUTE_NAMES.EMPLOYEE.EDIT}/:id`,
     loadComponent: () =>
       import('./create-edit-employee/create-edit-employee.component').then(
         (component) => component.CreateEditEmployeeComponent

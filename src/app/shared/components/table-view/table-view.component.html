@@ -1,35 +1,43 @@
-<div class="mat-table-wrapper">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z2 w-100">
-    
-    <!-- Dynamic Columns -->
-    <ng-container *ngFor="let col of columnDefs" [matColumnDef]="col.key">
-      <th mat-header-cell *matHeaderCellDef>{{ col.header }}</th>
-      <td mat-cell *matCellDef="let element">{{ element[col.key] }}</td>
-    </ng-container>
-
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>Actions</th>
-      <td mat-cell *matCellDef="let element">
-        <button class="btn btn-sm edit-icon" (click)="onEdit(element)" matTooltip="Edit">
-          <i class="fa fa-solid fa-pen"></i>
-        </button>
-        <button class="btn btn-sm delete-icon" (click)="onDelete(element)" matTooltip="Delete">
-          <i class="fa fa-trash"></i>
-        </button>
-      </td>
-    </ng-container>
-
-    <!-- Header and Rows -->
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns"></tr>
-
-    <!-- No Data Row -->
-    <tr class="no-data-row" *matNoDataRow>
-      <td [attr.colspan]="columns.length">
-        No Records Found
-      </td>
-    </tr>
-    
+<div class="table-responsive">
+  <table class="table table-hover table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th *ngFor="let col of columnDefs" scope="col">{{ col.header }}</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (showLoader) {
+        <tr>
+          <td [attr.colspan]="columnDefs.length + 1" class="text-center p-4">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </td>
+        </tr>
+      } @else if (data.length > 0) {
+        @for (element of data; track $index) {
+          <tr>
+            @for (col of columnDefs; track $index) {
+              <td>{{ element[col.key] || 'N/A' }}</td>
+            }
+            <td>
+              <button class="btn btn-sm text-primary" (click)="onEdit(element)" title="Edit">
+                <i class="fa fa-pen"></i>
+              </button>
+              <button class="btn btn-sm text-danger" (click)="onDelete(element)" title="Delete">
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        }
+      } @else {
+        <tr class="no-data-row">
+          <td [attr.colspan]="columnDefs.length + 1" class="text-center py-3">
+            No Records Found
+          </td>
+        </tr>
+      }
+    </tbody>
   </table>
 </div>

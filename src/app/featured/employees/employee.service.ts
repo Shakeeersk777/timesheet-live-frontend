@@ -22,7 +22,7 @@ export class EmployeeService {
 
   updateEmployee(employeeId: string, employeeData: any): Observable<any> {
     return this._apiService.putService(
-      `/update/employees/${employeeId}`,
+      `/update/employee/${employeeId}`,
       employeeData
     );
   }

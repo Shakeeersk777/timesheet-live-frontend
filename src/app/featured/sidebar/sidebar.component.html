@@ -1,4 +1,4 @@
-<ng-template #sidebarContent>
+<!-- <ng-template #sidebarContent>
   <hr />
   <ul class="mynav">
     @for (sidebar of sidebarList; track sidebar.key) {
@@ -30,6 +30,55 @@
       <i [ngClass]="isCollapsed ? 'fa fa-chevron-right' : 'fa fa-chevron-left'"></i>
     </button>
 
+    <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+  </div>
+}
+
+<div class="sidebar-container-mobile show-mobile-viewer" id="mobile-viewer">
+  @for (sidebar of sidebarList; track sidebar.key) {
+    <div
+      class="sidebar-box"
+      (click)="onSidebarChange(sidebar)"
+      [class.active]="currentTab === sidebar.key"
+    >
+      <i class="{{ sidebar.icon }}"></i>
+      <span>{{ sidebar.value }}</span>
+    </div>
+  }
+</div> -->
+
+
+<ng-template #sidebarContent>
+
+  <div class="logo-container">
+    <img
+      src="assets/images/logo-cut.png"
+      alt="Logo"
+      class="img img-fluid logo-img rounded"
+    />
+  </div>
+
+  <hr />
+  
+  <ul class="mynav">
+    @for (sidebar of sidebarList; track sidebar.key) {
+      <li
+        (click)="onSidebarChange(sidebar)"
+        [class.active]="currentTab === sidebar.key"
+      >
+        <i
+          class="{{ sidebar.icon }}"
+          [matTooltipPosition]="'right'"
+          [matTooltip]="sidebar.value"
+          matTooltipClass="my-custom-tooltip"
+        ></i>
+      </li>
+    }
+  </ul>
+</ng-template>
+
+@if (!isMobile) {
+  <div class="collapsed sidebar-container">
     <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
   </div>
 }

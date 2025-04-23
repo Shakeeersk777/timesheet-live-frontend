@@ -1,14 +1,14 @@
 <div class="container timesheet-container">
   <div class="header-content">
-    <p>Add Employee</p>
+    <p>{{ isEditMode ? "Edit Employee" : "Add Employee" }}</p>
     <div class="options">
       <button class="btn btn-success" (click)="navigateToList()">Back</button>
       <button
         class="btn btn-success"
-        (click)="addEmployee()"
+        (click)="submitForm()"
         [disabled]="createEditForm.invalid"
       >
-        Create
+        {{ isEditMode ? "Update" : "Create" }}
       </button>
     </div>
   </div>

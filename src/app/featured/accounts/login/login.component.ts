@@ -41,30 +41,32 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
+    this._router.navigateByUrl(ROUTE_NAMES.APP);
+    
+    // const onSuccess = (res: IApiResponce): void => {
+    //   if (!res) return;
 
-      this._layoutService.openSnackBar(res._msg, res._status);
+    //   this._layoutService.openSnackBar(res._msg, res._status);
 
-      if (res._status) {
-        this._authService.setCurrentUser(res._data);
-        this._router.navigateByUrl(ROUTE_NAMES.APP);
-      }
-      console.log('Login successful:', res);
-    };
+    //   if (res._status) {
+    //     this._authService.setCurrentUser(res._data);
+    //     this._router.navigateByUrl(ROUTE_NAMES.APP);
+    //   }
+    //   console.log('Login successful:', res);
+    // };
 
-    const onError = (error: any): void => {
-      // Handle error (e.g., show error message)
-      console.error('Login error:', error);
-    };
+    // const onError = (error: any): void => {
+    //   // Handle error (e.g., show error message)
+    //   console.error('Login error:', error);
+    // };
 
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
+    // const observer = {
+    //   next: onSuccess,
+    //   error: onError,
+    // };
 
-    this._accountsService
-      .login(this.loginForm.getRawValue())
-      .subscribe(observer);
+    // this._accountsService
+    //   .login(this.loginForm.getRawValue())
+    //   .subscribe(observer);
   }
 }

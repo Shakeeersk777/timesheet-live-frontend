@@ -2,12 +2,15 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
-  OnChanges,
+  OnDestroy,
+  OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { LayoutService } from '../../../featured/layout/layout.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-table-view',
@@ -16,22 +19,28 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
   templateUrl: './table-view.component.html',
   styleUrl: './table-view.component.scss',
 })
-export class TableViewComponent implements OnChanges {
+export class TableViewComponent implements OnInit, OnDestroy {
   @Input() columnDefs: { key: string; header: string }[] = [];
   @Input() data: any[] = [];
   @Output() deleteEmit = new EventEmitter<any>();
   @Output() editEmit = new EventEmitter<any>();
+  showLoader: boolean = false;
+  destroyIdentifier$ = new Subject();
 
-  dataSource = new MatTableDataSource<any[]>();
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['data']) {
-      this.dataSource.data = this.data;
-    }
-  }
+  private _layoutService: LayoutService = inject(LayoutService);
 
   get columns(): string[] {
     return [...this.columnDefs.map((col) => col.key), 'actions'];
+  }
+
+  ngOnInit(): void {
+    this.listenLoaderState();
+  }
+
+  listenLoaderState() {
+    this._layoutService.tableLoaderState.subscribe(
+      (state) => (this.showLoader = state)
+    );
   }
 
   onEdit(element: any) {
@@ -40,5 +49,9 @@ export class TableViewComponent implements OnChanges {
 
   onDelete(element: any) {
     this.deleteEmit.emit(element);
+  }
+
+  ngOnDestroy(): void {
+    this._layoutService.showTableLoaderState();
   }
 }
