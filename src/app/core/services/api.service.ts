@@ -18,7 +18,7 @@ export class ApiService {
     return this._httpClient.post(`${this.apiUrl}${url}`, body);
   }
 
-  putService(url: string, body: any): Observable<any> {
+  putService(url: string, body?: any): Observable<any> {
     return this._httpClient.put(`${this.apiUrl}${url}`, body);
   }
 

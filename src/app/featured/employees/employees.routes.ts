@@ -1,37 +1,40 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
+import { canActivateFn } from '../../core/guards/auth.guard';
 
 export const employeeRoutes: Routes = [
   {
     path: ROUTE_NAMES.EMPLOYEE.CREATE,
     loadComponent: () =>
-      import('./create-edit-employee/create-edit-employee.component').then(
-        (component) => component.CreateEditEmployeeComponent
+      import('./components/create-employee/create-employee.component').then(
+        (component) => component.CreateEmployeeComponent
       ),
     title: 'Add Employee',
   },
   {
     path: `${ROUTE_NAMES.EMPLOYEE.EDIT}/:id`,
+    canActivate: [canActivateFn],
     loadComponent: () =>
-      import('./create-edit-employee/create-edit-employee.component').then(
-        (component) => component.CreateEditEmployeeComponent
+      import('./components/edit-employee/edit-employee.component').then(
+        (component) => component.EditEmployeeComponent
       ),
     title: 'Update Employee',
   },
   {
-    path: ROUTE_NAMES.EMPLOYEE.OVERVIEW,
+    path: `${ROUTE_NAMES.EMPLOYEE.OVERVIEW}/:id`,
     loadComponent: () =>
-        import('./employee-overview/employee-overview.component').then(
-          (component) => component.EmployeeOverviewComponent
-        ),
+      import('./components/employee-overview/employee-overview.component').then(
+        (component) => component.EmployeeOverviewComponent
+      ),
     title: 'Employee Overview',
   },
   {
     path: ROUTE_NAMES.EMPLOYEE.LIST,
+    canActivate: [canActivateFn],
     loadComponent: () =>
-        import('./view-employees/view-employees.component').then(
-          (component) => component.ViewEmployeesComponent
-        ),
+      import('./components/view-employees/view-employees.component').then(
+        (component) => component.ViewEmployeesComponent
+      ),
     title: 'View Employees',
   },
 ];

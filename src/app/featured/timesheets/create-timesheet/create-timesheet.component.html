@@ -2,66 +2,65 @@
   <div class="header-content">
     <p>Add Timesheet</p>
     <div class="options">
-      <button class="btn btn-success" (click)="onBack()">Back</button>
-      <button class="btn btn-success" (click)="onSubmit()">Create</button>
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+      <button class="btn btn-success" (click)="submitForm()">Create</button>
     </div>
   </div>
+
   <form class="common-form" [formGroup]="createTimesheetForm">
-    <div class="mb-3">
-      <app-select-dropdown
-        formControlName="project"
-        [items]="projects"
-        bindLabel="name"
-        bindValue="id"
-        placeholder="Select a project"
-        label="Project"
-      />
-    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <app-select-dropdown
+          formControlName="projectId"
+          bindLabel="ProjectName"
+          bindValue="ProjectId"
+          placeholder="Select a project"
+          label="Project"
+          [items]="dropdownData?.projects || []"
+        ></app-select-dropdown>
+      </div>
 
-    <div class="mb-3">
-      <app-select-dropdown
-        formControlName="task"
-        [items]="projects"
-        bindLabel="name"
-        bindValue="id"
-        placeholder="Select a task"
-        label="Task"
-      />
-    </div>
-
-    <div class="mb-3">
-      <app-select-dropdown
-        formControlName="taskType"
-        [items]="projects"
-        bindLabel="name"
-        bindValue="id"
-        placeholder="Select a task type"
-        label="Task Type"
-      />
+      <div class="col-md-6 mb-3">
+        <app-select-dropdown
+          formControlName="taskId"
+          bindLabel="TaskName"
+          bindValue="TaskId"
+          placeholder="Select a task"
+          label="Task"
+          [items]="projectAssignedDropdown?.tasks || []"
+        ></app-select-dropdown>
+      </div>
     </div>
 
     <div class="row">
       <div class="col-md-6 mb-3">
         <label for="date1" class="form-label">Start Date</label>
-        <input type="date" class="form-control" id="date1" name="date1" required />
+        <input
+          type="date"
+          class="form-control"
+          id="date1"
+          formControlName="startDate"
+        />
       </div>
       <div class="col-md-6 mb-3">
         <label for="date2" class="form-label">End Date</label>
-        <input type="date" class="form-control" id="date2" name="date2" required />
+        <input
+          type="date"
+          class="form-control"
+          id="date2"
+          formControlName="endDate"
+        />
       </div>
     </div>
-    
+
     <div class="mb-3">
       <label for="hours" class="form-label">Hours</label>
       <input
         type="time"
-        pattern="^([01][0-9]|2[0-3]):00$"
         class="form-control"
         id="hours"
-        name="hours"
-        min="0"
-        max="24"
-        required
+        formControlName="hours"
+        pattern="^([01][0-9]|2[0-3]):00$"
       />
     </div>
 
@@ -70,9 +69,8 @@
       <textarea
         class="form-control"
         id="description"
-        name="description"
+        formControlName="description"
         rows="3"
-        required
       ></textarea>
     </div>
   </form>

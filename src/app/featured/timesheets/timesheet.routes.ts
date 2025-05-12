@@ -18,4 +18,12 @@ export const timesheetRoutes: Routes = [
       ),
     title: 'View Timesheets',
   },
+  {
+    path: `${ROUTE_NAMES.TIMESHEET.OVERVIEW}/:id`,
+    loadComponent: () =>
+      import('./timesheet-overview/timesheet-overview.component').then(
+        (component) => component.TimesheetOverviewComponent
+      ),
+    title: 'Timesheet Overview',
+  },
 ];

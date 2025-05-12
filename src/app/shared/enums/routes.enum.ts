@@ -5,6 +5,7 @@ export const ROUTE_NAMES = {
   LOGIN: 'login',
   LOGOUT: 'logout',
   DASHBOARD: 'dashboard',
+  ACCESS_DENIED: 'access-denied',
   EMPLOYEE: {
     BASE: 'employees',
     CREATE: 'create',
@@ -17,6 +18,7 @@ export const ROUTE_NAMES = {
     CREATE: 'create',
     EDIT: 'edit',
     LIST: 'manage',
+    OVERVIEW: 'overview',
   },
   PROJECT: {
     BASE: 'projects',
@@ -24,12 +26,15 @@ export const ROUTE_NAMES = {
     EDIT: 'edit',
     LIST: 'manage',
     ASSIGN: 'assign',
+    OVERVIEW: 'overview'
   },
   TASK: {
     BASE: 'tasks',
     CREATE: 'create',
     EDIT: 'edit',
     LIST: 'manage',
+    OVERVIEW: 'overview',
+    ASSIGN: 'assign',
   },
   REPORT: {
     BASE: 'reports',

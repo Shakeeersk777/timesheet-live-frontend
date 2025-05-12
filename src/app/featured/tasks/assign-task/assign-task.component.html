@@ -1,0 +1,69 @@
+<div class="container form-container">
+  <div class="header-content">
+    <p>Assign Task</p>
+    <div class="options">
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+      <button class="btn btn-success" (click)="submitForm()">Assign</button>
+    </div>
+  </div>
+
+  <form class="common-form" [formGroup]="assignProjectForm">
+    <div class="mb-3">
+      <app-select-dropdown
+        [items]="dropdownData?.projects || []"
+        bindLabel="ProjectName"
+        bindValue="ProjectId"
+        placeholder="Select a project"
+        label="Select project"
+        formControlName="projectId"
+      />
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        [items]="projectAssignedDropdown?.tasks || []"
+        [multiple]="true"
+        [searchable]="true"
+        bindLabel="TaskName"
+        bindValue="TaskId"
+        placeholder="Select a task"
+        label="Select task"
+        formControlName="taskId"
+      />
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        [items]="projectAssignedDropdown?.employees || []"
+        [multiple]="true"
+        [searchable]="true"
+        bindLabel="FullName"
+        bindValue="EmployeeId"
+        placeholder="Select a employee"
+        label="Select employee"
+        formControlName="assignTo"
+      />
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="startDate" class="form-label">Start Date</label>
+        <input
+          type="date"
+          class="form-control"
+          name="startDate"
+          formControlName="startDate"
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="endDate" class="form-label">End Date</label>
+        <input
+          type="date"
+          class="form-control"
+          name="date2"
+          formControlName="endDate"
+        />
+      </div>
+    </div>
+  </form>
+</div>

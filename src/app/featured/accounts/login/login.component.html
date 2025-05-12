@@ -33,3 +33,9 @@
     <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Login</button>
   </form>
 </div>
+
+
+@if (showLoader) {
+  <app-global-loader />
+  }
+   

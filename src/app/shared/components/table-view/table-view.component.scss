@@ -11,10 +11,11 @@
 
   th {
     position: sticky;
-    top: 0px
+    top: 0px;
   }
 
-  th, td {
+  th,
+  td {
     padding: 0.75rem;
     text-align: left;
     transition: all 0.3s ease;
@@ -25,6 +26,12 @@
     color: #000;
     font-weight: 600;
   }
+
+  // tbody {
+  //   tr {
+  //     border-left: 3px solid red;
+  //   }
+  // }
 
   .no-data-row td {
     text-align: center;

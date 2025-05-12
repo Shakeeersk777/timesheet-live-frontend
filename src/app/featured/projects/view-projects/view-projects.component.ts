@@ -5,10 +5,15 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AssignProjectComponent } from '../assign-project/assign-project.component';
 import { IProject } from '../project.modal';
 import { LayoutService } from '../../layout/layout.service';
-import { IApiResponce } from '../../../core/models/models.interfece';
+import {
+  IApiResponce,
+  IColumnDef,
+} from '../../../core/models/models.interfece';
 import { ProjectService } from '../project.service';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { CreateProjectComponent } from '../create-project/create-project.component';
+import { ConfirmPopupComponent } from '../../../shared/components/confirm-popup/confirm-popup.component';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-view-projects',
@@ -22,26 +27,23 @@ export class ViewProjectsComponent {
   private _dialog: MatDialog = inject(MatDialog);
   private _layoutService: LayoutService = inject(LayoutService);
   private _projectService: ProjectService = inject(ProjectService);
+  private _authService: AuthService = inject(AuthService);
   projectList: IProject[] = [];
+  isAdmin = false;
 
-  columns = [
-    { key: 'ProjectsId', header: 'Project ID' },
-    { key: 'ProjectsName', header: 'Project Name' },
-    { key: 'TaskType', header: 'Task Type' },
-    { key: 'ProjectsStatus', header: 'Status' },
-    { key: 'ReceivedDate', header: 'Received Date' },
-    { key: 'StartDate', header: 'Start Date' },
+  columns: IColumnDef[] = [
+    // { key: 'ProjectId', header: 'Project ID' },
+    { key: 'ProjectName', header: 'Project Name' },
+    { key: 'ProjectStatus', header: 'Status' },
     { key: 'TotalAllocatedHours', header: 'Allocated Hours' },
     { key: 'TotalCompletedHours', header: 'Completed Hours' },
-    { key: 'TotalCompletedPercetage', header: 'Completion %' },
-    { key: 'AssignedBy', header: 'Assigned By' },
-    { key: 'AssignedTo', header: 'Assigned To' },
-    { key: 'CompletedDate', header: 'Completed Date' },
-    { key: 'LastUpdatedDate', header: 'Last Updated' },
-    { key: 'LatestUpdates', header: 'Latest Updates' },
+    { key: 'CreatedDate', header: 'Created Date', type: 'date' },
+    { key: 'LastUpdated', header: 'Last Updated', type: 'date' },
+    { key: 'CompletedDate', header: 'Completed Date', type: 'date' },
   ];
 
   ngOnInit(): void {
+    this.isAdmin = this._authService.isAdmin();
     this.getProjects();
   }
 
@@ -50,32 +52,32 @@ export class ViewProjectsComponent {
       width: '400px',
       maxHeight: '90vh',
       disableClose: false,
-      autoFocus: true,
-      data: {
-        mode: 'create',
-      },
     });
 
-    dialogRef.afterClosed().subscribe((success) => {
-      if (success) {
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data?.success) {
         this.getProjects();
       }
     });
   }
 
   onAssign() {
-    const dialogRef = this._dialog.open(AssignProjectComponent, {
-      width: '600px',
+    this._router.navigateByUrl(
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.ASSIGN}`
+    );
+  }
+
+  showDeletePopup(project: IProject) {
+    const dialogRef = this._dialog.open(ConfirmPopupComponent, {
+      width: '500px',
       maxHeight: '100vh',
       disableClose: false,
-      autoFocus: true,
-      data: {
-        mode: 'create',
-      },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data?.confirm) {
+        this.deleteProject(project);
+      }
     });
   }
 
@@ -93,7 +95,9 @@ export class ViewProjectsComponent {
       this._layoutService.stopTableLoaderState();
     };
 
-    const onError = (error: any): void => {};
+    const onError = (error: any): void => {
+      this._layoutService.onError(error);
+    };
 
     const observer = {
       next: onSuccess,
@@ -120,7 +124,7 @@ export class ViewProjectsComponent {
     };
 
     const onError = (error: any): void => {
-      this._layoutService.showTableLoaderState();
+      this._layoutService.onError(error);
     };
 
     const observer = {
@@ -128,12 +132,18 @@ export class ViewProjectsComponent {
       error: onError,
     };
 
-    this._projectService.deleteProject(project.ProjectsId).subscribe(observer);
+    this._projectService.deleteProject(project.ProjectId).subscribe(observer);
   }
 
   onUpdate(project: IProject) {
     this._router.navigateByUrl(
-      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.EDIT}/${project.ProjectsId}`
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.EDIT}/${project.ProjectId}`
+    );
+  }
+
+  onView(project: IProject) {
+    this._router.navigateByUrl(
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.OVERVIEW}/${project.ProjectId}`
     );
   }
 }

@@ -1,31 +1,34 @@
 export interface IProject {
-  ProjectsId: string;
-  ProjectsName: string;
-  TaskType?: string[];
-  ProjectsStatus: boolean;
-  ReceivedDate?: Date;
+  ProjectId: string;
+  ProjectName: string;
+  ProjectStatus: boolean;
   StartDate?: Date;
   TotalAllocatedHours?: number;
   TotalCompletedHours?: number;
-  TotalCompletedPercetage?: string;
-  AssignedBy?: string[];
   AssignedTo?: string[];
   CompletedDate?: Date;
-  LastUpdatedDate?: Date;
-  LatestUpdates?: string[];
+  CreatedDate?: Date,
+  LastUpdated?: Date;
+  AssignedToList?: AssignedToList[];
 }
 
 export interface ICreateProject {
   ProjectName: string;
-  TotalAllocatedHours: number;
+  TotalAllocatedHours?: number;
 }
 
 export interface IUpdateProject {
-  ProjectsId: string;
-  ProjectsName: string;
-  ReceivedDate: Date;
+  ProjectName: string;
+  ProjectStatus: boolean;
   StartDate: Date;
   TotalAllocatedHours: number;
-  ProjectsStatus: boolean;
+  TotalCompletedHours: number;
   AssignedTo: string[];
+  CompletedDate: Date;
+}
+
+export interface AssignedToList {
+  EmployeeId: string;
+  FirstName: string;
+  LastName: string;
 }

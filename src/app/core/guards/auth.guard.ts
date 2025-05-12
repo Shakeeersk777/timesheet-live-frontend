@@ -1,14 +1,18 @@
-import { CanActivateFn } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
 
-export const CanActivateGuard: CanActivateFn = (route, state) => {
-  const _authService: AuthService = inject(AuthService);
+export const canActivateFn: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const isAdmin = authService.isAdmin();
+  return isAdmin ? true : router.createUrlTree([ROUTE_NAMES.ACCESS_DENIED]);
+};
 
-  if (!_authService.getCurrentUser()) {
-    _authService.logout();
-    return false;
-  }
-
-  return true;
+export const canActivateChildFn: CanActivateChildFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const isAdmin = authService.isAdmin();
+  return isAdmin ? true : router.createUrlTree([ROUTE_NAMES.ACCESS_DENIED]);
 };

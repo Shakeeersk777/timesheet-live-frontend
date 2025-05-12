@@ -1,0 +1,8 @@
+.chart-wrapper {
+  min-height: 250px;
+  width: 100%;
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+}

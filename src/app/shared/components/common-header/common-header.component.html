@@ -1,0 +1,14 @@
+<div class="header-content">
+  <p>{{ title }}</p>
+  <div class="options">
+    @for (btn of buttons; track $index) {
+    <button
+      class="btn btn-success"
+      (click)="onAction(btn.label)"
+      [disabled]="btn.disabled"
+    >
+      {{ btn.label }}
+    </button>
+    }
+  </div>
+</div>

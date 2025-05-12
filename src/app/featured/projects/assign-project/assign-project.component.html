@@ -1,31 +1,34 @@
-<h1 mat-dialog-title>Assign Project</h1>
+<div class="container form-container">
+  <div class="header-content">
+    <p>Assign Project</p>
+    <div class="options">
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+      <button class="btn btn-success" (click)="submitForm()">Assign</button>
+    </div>
+  </div>
 
-<mat-dialog-content class="content-container">
-  <form>
+  <form class="common-form" [formGroup]="assignProjectForm">
     <div class="mb-3">
       <app-select-dropdown
-        [items]="projects"
-        bindLabel="name"
-        bindValue="id"
+        [items]="dropdownData?.projects || []"
+        bindLabel="ProjectName"
+        bindValue="ProjectId"
         placeholder="Select a project"
         label="Project"
+        formControlName="projectId"
       />
     </div>
     <div class="mb-3">
       <app-select-dropdown
-        [items]="projects"
+      [items]="dropdownData?.employees || []"
         [multiple]="true"
         [searchable]="true"
-        bindLabel="name"
-        bindValue="id"
+        bindLabel="FullName"
+        bindValue="EmployeeId"
         placeholder="Select assign to"
         label="Assign To"
+        formControlName="assignTo"
       />
     </div>
   </form>
-</mat-dialog-content>
-
-<mat-dialog-actions>
-  <button class="btn btn-light me-2" (click)="onCancel()">Cancel</button>
-  <button class="btn btn-success" (click)="onSubmit()">Assign</button>
-</mat-dialog-actions>
+</div>

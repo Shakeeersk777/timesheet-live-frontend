@@ -5,16 +5,19 @@
   <ng-select
     class="custom-ng-select"
     [items]="items"
-    bindLabel="name"
-    bindValue="id"
+    [bindLabel]="bindLabel"
+    [bindValue]="bindValue"
     [placeholder]="placeholder"
     [searchable]="searchable"
     [clearable]="false"
     [dropdownPosition]="'bottom'"
     [fixedPlaceholder]="false"
     [(ngModel)]="value"
-    [clearable]="true"
+    [clearable]="clearable"
+    [disabled]="disabled"
     [multiple]="multiple"
     (ngModelChange)="setValue($event)"
+    [ngClass]="{ 'disabled': disabled }"
+    [readonly]=""
   />
 </div>

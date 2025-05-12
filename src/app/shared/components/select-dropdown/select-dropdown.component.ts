@@ -22,6 +22,9 @@ export class SelectDropdownComponent implements ControlValueAccessor {
   @Input() label!: string;
   @Input() multiple: boolean = false;
   @Input() searchable: boolean = false;
+  @Input() disabled: boolean = false;
+  @Input() readonly: boolean = false;
+  @Input() clearable: boolean = true;
   @Input() items: any[] = [];
   @Input() bindLabel: string = 'label';
   @Input() bindValue: string = 'value';

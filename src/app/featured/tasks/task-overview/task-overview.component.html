@@ -1,0 +1,163 @@
+<div class="container form-container">
+  <div class="header-content">
+    <p>Task Overview</p>
+    <div class="options">
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+    </div>
+  </div>
+
+  <form class="common-form" [formGroup]="overviewForm">
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="taskStatus"
+        formControlName="taskStatus"
+      />
+      <label class="form-check-label" for="taskStatus">Task Status</label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="taskId" class="form-label">Task ID</label>
+        <input
+          type="text"
+          id="taskId"
+          class="form-control"
+          placeholder="Enter task ID"
+          formControlName="taskId"
+          readonly
+        />
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="taskName" class="form-label">Task Name</label>
+        <input
+          type="text"
+          id="taskName"
+          class="form-control"
+          placeholder="Enter task name"
+          formControlName="taskName"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="allocateHours" class="form-label"
+          >Total Allocated Hours</label
+        >
+        <input
+          type="number"
+          id="allocateHours"
+          class="form-control"
+          placeholder="Enter total allocated hours"
+          formControlName="allocateHours"
+          readonly
+        />
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="totalWorkedHours" class="form-label"
+          >Total Completed Hours</label
+        >
+        <input
+          type="number"
+          id="totalWorkedHours"
+          class="form-control"
+          placeholder="Enter total completed hours"
+          formControlName="totalWorkedHours"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="projectId" class="form-label">Project ID</label>
+        <input
+          type="text"
+          id="projectId"
+          class="form-control"
+          placeholder="Enter project ID"
+          formControlName="projectId"
+          readonly
+        />
+      </div>
+
+      <div class="col-md-6 mb-3">
+        <label for="completedDate" class="form-label">Completed Date</label>
+        <input
+          type="date"
+          id="completedDate"
+          class="form-control"
+          formControlName="completedDate"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="startDate" class="form-label">Start Date</label>
+        <input
+          type="date"
+          class="form-control"
+          name="startDate"
+          formControlName="startDate"
+          readonly
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="endDate" class="form-label">End Date</label>
+        <input
+          type="date"
+          class="form-control"
+          name="date2"
+          formControlName="endDate"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        bindLabel="FullName"
+        bindValue="EmployeeId"
+        placeholder="Select assigned to"
+        label="Assigned To"
+        formControlName="assignedTo"
+        [multiple]="true"
+        [clearable]="false"
+        [disabled]="true"
+        [items]="projectAssignedDropdown?.employees || []"
+      ></app-select-dropdown>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="username" class="form-label">Created date</label>
+        <input
+          type="text"
+          id="createdDate"
+          class="form-control"
+          placeholder="Created date"
+          formControlName="createdDate"
+          readonly
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastUpdated" class="form-label">Last Updated</label>
+        <input
+          type="text"
+          id="lastUpdated"
+          class="form-control"
+          placeholder="Last updated timestamp"
+          formControlName="lastUpdated"
+          readonly
+        />
+      </div>
+    </div>
+  </form>
+</div>

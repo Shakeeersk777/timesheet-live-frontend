@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from './shared/enums/routes.enum';
-import { CanActivateGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -10,16 +9,20 @@ export const routes: Routes = [
   },
   {
     path: ROUTE_NAMES.APP,
-    // canActivate: [CanActivateGuard],
     loadComponent: () =>
       import('./featured/layout/layout.component').then(
         (component) => component.LayoutComponent
       ),
     children: [
       {
+        path: '',
+        redirectTo: ROUTE_NAMES.DASHBOARD,
+        pathMatch: 'full',
+      },
+      {
         path: ROUTE_NAMES.DASHBOARD,
         loadComponent: () =>
-          import('./featured/dashboard/dashboard.component').then(
+          import('./featured/dashboard/components/dashboard.component').then(
             (component) => component.DashboardComponent
           ),
       },
@@ -67,6 +70,14 @@ export const routes: Routes = [
         (component) => component.LoginComponent
       ),
     title: 'Login',
+  },
+  {
+    path: ROUTE_NAMES.ACCESS_DENIED,
+    loadComponent: () =>
+      import('./shared/components/access-denied/access-denied.component').then(
+        (component) => component.AccessDeniedComponent
+      ),
+    title: 'Access Denied',
   },
   {
     path: ROUTE_NAMES.WILD_CARD,

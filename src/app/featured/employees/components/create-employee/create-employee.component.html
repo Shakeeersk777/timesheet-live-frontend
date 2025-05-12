@@ -1,0 +1,53 @@
+<div class="container form-container">
+  <app-common-header
+    [title]="title"
+    [buttons]="buttonsList"
+    (actionTriggered)="handleHeaderAction($event)"
+  />
+
+  <form class="common-form" [formGroup]="createForm">
+    <div class="mb-3">
+      <label for="firstName" class="form-label">First name</label>
+      <input
+        type="text"
+        id="firstName"
+        class="form-control"
+        placeholder="Enter First name"
+        formControlName="firstName"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Last name</label>
+      <input
+        type="text"
+        id="lastName"
+        class="form-control"
+        placeholder="Enter Last name"
+        formControlName="lastName"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        id="email"
+        class="form-control"
+        placeholder="Enter employee email"
+        formControlName="email"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        id="password"
+        class="form-control"
+        placeholder="Enter employee password"
+        formControlName="password"
+      />
+    </div>
+  </form>
+</div>

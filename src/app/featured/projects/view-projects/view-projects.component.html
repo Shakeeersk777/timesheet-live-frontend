@@ -1,15 +1,18 @@
 <div class="container manage-list-container">
   <div class="header-content">
-    <p>Manage Projects</p>
+    <p>{{ isAdmin ? "Manage" : "Assigned" }} Projects</p>
+    @if (isAdmin) {
     <div class="options">
       <button class="btn btn-success" (click)="onAdd()">Add</button>
       <button class="btn btn-success" (click)="onAssign()">Assign</button>
     </div>
+    }
   </div>
   <app-table-view
     [columns]="columns"
     [data]="projectList"
-    (deleteEmit)="deleteProject($event)"
+    (deleteEmit)="showDeletePopup($event)"
     (editEmit)="onUpdate($event)"
+    (overviewEmit)="onView($event)"
   />
 </div>

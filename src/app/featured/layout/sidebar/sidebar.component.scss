@@ -1,0 +1,180 @@
+@import "../../../styles//variables";
+
+// Desktop Sidebar
+$desktop-sidebar-bg-color: $primary-bg-color;
+$desktop-sidebar-text-color: $primary-text-color;
+$sidebar-padding: 1rem;
+$sidebar-width: 230px;
+$sidebar-collapsed-width: 80px;
+$sidebar-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+$sidebar-transition: width 0.3s ease;
+$sidebar-hover-text-color: $primary-bg-color;
+$sidebar-active-bg-color: #ffffff;
+$sidebar-active-text-color: $primary-bg-color;
+
+// Sidebar Mobile
+$sidebar-mobile-bg-color: #fff;
+$sidebar-mobile-border-radius: 8px;
+$sidebar-mobile-shadow: $primary-box-shadow;
+$sidebar-mobile-top-position: 65px;
+$sidebar-mobile-padding: 1rem;
+$sidebar-mobile-gap: 15px;
+
+// Sidebar Box
+$sidebar-box-bg-color: #f8f9fa;
+$sidebar-box-text-color: #34495e;
+$sidebar-box-hover-bg-color: #e0f7f1;
+$sidebar-box-hover-text-color: $primary-bg-color;
+$sidebar-box-active-bg-color: $primary-bg-color;
+$sidebar-box-active-text-color: #fff;
+$sidebar-box-width: 45%;
+$sidebar-box-height: 80px;
+$sidebar-box-border-radius: 12px;
+
+// Button
+$collapse-btn-bg: transparent;
+$collapse-btn-border: none;
+$collapse-btn-text-color: white;
+$collapse-btn-icon-size: 20px;
+
+// Sidebar Item
+$sidebar-item-padding: 10px;
+$sidebar-item-margin: 5px 0;
+$sidebar-item-border-radius: 6px;
+$sidebar-item-font-size: 1rem;
+$sidebar-item-hover-font-weight: bold;
+
+// Sidebar Container
+.sidebar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh;
+  width: $sidebar-width;
+  background-color: $desktop-sidebar-bg-color;
+  color: $desktop-sidebar-text-color;
+  padding: $sidebar-padding;
+  display: flex;
+  flex-direction: column;
+  box-shadow: $sidebar-shadow;
+  transition: $sidebar-transition;
+  z-index: 1;
+
+  ul {
+    flex: 1;
+    list-style: none;
+    padding: 0;
+
+    li {
+      display: flex;
+      align-items: center;
+      padding: $sidebar-item-padding;
+      margin: $sidebar-item-margin;
+      border-radius: $sidebar-item-border-radius;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        font-weight: $sidebar-item-hover-font-weight;
+
+        i {
+          transform: scale(1.1);
+        }
+      }
+
+      &.active {
+        background-color: $sidebar-active-bg-color;
+        color: $sidebar-active-text-color;
+        i {
+          transform: scale(1.1);
+        }
+      }
+
+      i {
+        margin: 3px;
+        transition: all 0.15s ease-in-out;
+      }
+    }
+  }
+
+  .collapse-btn {
+    background: $collapse-btn-bg;
+    border: $collapse-btn-border;
+    color: $collapse-btn-text-color;
+    cursor: pointer;
+
+    i {
+      font-size: $collapse-btn-icon-size;
+    }
+  }
+
+  &.collapsed {
+    width: $sidebar-collapsed-width;
+
+    .user-type,
+    li span {
+      display: none;
+    }
+
+    li {
+      justify-content: center;
+
+      i {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// Mobile Sidebar Container
+.sidebar-container-mobile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $sidebar-mobile-gap;
+  padding: $sidebar-mobile-padding;
+  justify-content: center;
+  background-color: $sidebar-mobile-bg-color;
+  border-radius: $sidebar-mobile-border-radius;
+  box-shadow: $sidebar-mobile-shadow;
+  position: absolute;
+  top: $sidebar-mobile-top-position;
+  width: 100%;
+  z-index: 1000;
+
+  .sidebar-box {
+    width: $sidebar-box-width;
+    height: $sidebar-box-height;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: $sidebar-box-border-radius;
+    background-color: $sidebar-box-bg-color;
+    color: $sidebar-box-text-color;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+
+    i {
+      font-size: 1rem;
+    }
+
+    span {
+      font-size: 0.85rem;
+    }
+
+    &:hover {
+      background-color: $sidebar-box-hover-bg-color;
+      color: $sidebar-box-hover-text-color;
+    }
+
+    &.active {
+      background-color: $sidebar-box-active-bg-color;
+      color: $sidebar-box-active-text-color;
+    }
+  }
+}
+
+.show-mobile-viewer {
+  display: none;
+}

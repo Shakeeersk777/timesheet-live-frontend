@@ -1,0 +1,29 @@
+<div class="header-container">
+  <div class="logo-container">
+    <img
+      src="assets/images/logo-cut.png"
+      alt="Logo"
+      class="img-fluid logo-img"
+    />
+  </div>
+
+  <div
+    #mobileNavViewerIconRef
+    id="mobile-nav-bar-icon"
+    class="menu-icon show-mobile-nav-icon"
+    (click)="toggleMobileNavbar()"
+  >
+    <i class="fa fa-bars"></i>
+  </div>
+
+  <nav class="nav-links">
+    @if(!isAdmin){
+    <a class="profile">
+      <i matTooltip="Profile" class="fa fa-user-circle" (click)="onView()"></i>
+    </a>
+    }
+    <a class="logout" (click)="onLogout()">
+      <i matTooltip="Logout" class="fa fa-sign-out-alt"></i>
+    </a>
+  </nav>
+</div>

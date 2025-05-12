@@ -1,0 +1,109 @@
+<div class="container form-container">
+  <div class="header-content">
+    <p>Employee Overview</p>
+    <div class="options">
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+    </div>
+  </div>
+  <form class="common-form" [formGroup]="overviewForm">
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="activeStatus"
+        formControlName="activeStatus"
+        readonly
+      />
+      <label class="form-check-label" for="activeStatus">Active Status</label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="id" class="form-label">Employee ID</label>
+        <input
+          type="text"
+          id="id"
+          class="form-control"
+          placeholder="Employee id"
+          formControlName="id"
+          readonly
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter employee email"
+          formControlName="email"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="firstName" class="form-label">First name</label>
+        <input
+          type="text"
+          id="firstName"
+          class="form-control"
+          placeholder="Enter First name"
+          formControlName="firstName"
+          readonly
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastName" class="form-label">Last name</label>
+        <input
+          type="text"
+          id="lastName"
+          class="form-control"
+          placeholder="Enter Last name"
+          formControlName="lastName"
+          readonly
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        bindLabel="ProjectName"
+        bindValue="ProjectId"
+        placeholder="Assigned projects"
+        label="Assigned Projects"
+        formControlName="assignedProjects"
+        [multiple]="true"
+        [items]="dropdownData?.projects || []"
+        [clearable]="false"
+        [disabled]="true"
+      />
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="username" class="form-label">Created date</label>
+        <input
+          type="date"
+          id="createdDate"
+          class="form-control"
+          placeholder="Created date"
+          formControlName="createdDate"
+          readonly
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastUpdated" class="form-label">Last Updated</label>
+        <input
+          type="date"
+          id="lastUpdated"
+          class="form-control"
+          placeholder="Last updated timestamp"
+          formControlName="lastUpdated"
+          readonly
+        />
+      </div>
+    </div>
+  </form>
+</div>

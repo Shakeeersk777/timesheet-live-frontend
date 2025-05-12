@@ -9,25 +9,22 @@ export class EmployeeService {
   private _apiService: ApiService = inject(ApiService);
 
   getAllEmployees(): Observable<any> {
-    return this._apiService.getService('/get/employees');
+    return this._apiService.getService('/users');
   }
 
   getEmployeeOverview(employeeId: string): Observable<any> {
-    return this._apiService.getService(`/get/employee/${employeeId}`);
+    return this._apiService.getService(`/users/${employeeId}`);
   }
 
   addEmployee(employeeData: any): Observable<any> {
-    return this._apiService.postService('/add/employee', employeeData);
+    return this._apiService.postService('/users', employeeData);
   }
 
   updateEmployee(employeeId: string, employeeData: any): Observable<any> {
-    return this._apiService.putService(
-      `/update/employee/${employeeId}`,
-      employeeData
-    );
+    return this._apiService.putService(`/users/${employeeId}`, employeeData);
   }
 
   deleteEmployee(employeeId: string): Observable<any> {
-    return this._apiService.deleteService(`/delete/employee/${employeeId}`);
+    return this._apiService.deleteService(`/users/${employeeId}`);
   }
 }

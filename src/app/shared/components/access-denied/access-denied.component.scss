@@ -1,0 +1,21 @@
+.access-denied-container {
+  background-color: #fff;
+  height: 100dvh;
+  width: 100dvw;
+  .access-image {
+    max-width: 200px;
+  }
+
+  .access-denied-text {
+    font-size: 3rem;
+    color: red;
+  }
+}
+
+@media (max-width: 576px) {
+  .access-denied-container {
+    .access-denied-text {
+      font-size: 1.5rem;
+    }
+  }
+}

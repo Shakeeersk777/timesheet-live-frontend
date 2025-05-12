@@ -8,6 +8,6 @@ export class AccountsService {
   private _apiService: ApiService = inject(ApiService);
 
   login(payload: any) {
-    return this._apiService.postService('/employee/login', payload);
+    return this._apiService.postService('/auth/login', payload);
   }
 }

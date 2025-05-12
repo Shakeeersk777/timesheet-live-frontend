@@ -8,35 +8,48 @@
     </thead>
     <tbody>
       @if (showLoader) {
-        <tr>
-          <td [attr.colspan]="columns.length + 1" class="text-center p-4">
-            <div class="spinner-border" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </td>
-        </tr>
-      } @else if (data.length > 0) {
-        @for (element of data; track $index) {
-          <tr>
-            @for (col of columns; track $index) {
-              <td>{{ element[col.key] || 'N/A' }}</td>
-            }
-            <td>
-              <button class="btn btn-sm text-primary" (click)="onEdit(element)" title="Edit">
-                <i class="fa fa-pen"></i>
-              </button>
-              <button class="btn btn-sm text-danger" (click)="onDelete(element)" title="Delete">
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        }
-      } @else {
-        <tr class="no-data-row">
-          <td [attr.colspan]="columns.length + 1" class="text-center py-3">
-            No Records Found
-          </td>
-        </tr>
+      <tr>
+        <td [attr.colspan]="columns.length + 1" class="text-center p-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </td>
+      </tr>
+      } @else if (data.length > 0) { @for (element of data; track $index) {
+      <tr
+        [ngStyle]="{
+          'border-left': element?.StatusBorderColor
+            ? element.StatusBorderColor
+            : ''
+        }"
+      >
+        @for (col of columns; track $index) { @if (col.type === 'date') {
+        <!-- <td>
+              {{ element[col.key] ? (element[col.key] | date : "medium") : "N/A" }}
+            </td> -->
+        <td>{{ element[col.key] || "N/A" }}</td>
+        } @else {
+        <td>{{ element[col.key] || "N/A" }}</td>
+        } }
+        <td>
+          @for (btn of actionButtons; track $index) {
+          <button
+            class="btn btn-sm"
+            [ngClass]="btn.class"
+            (click)="btn.onClick(element)"
+            [title]="btn.title"
+          >
+            <i class="fa" [ngClass]="btn.icon"></i>
+          </button>
+          }
+        </td>
+      </tr>
+      } } @else {
+      <tr class="no-data-row">
+        <td [attr.colspan]="columns.length + 1" class="text-center py-3">
+          No Records Found
+        </td>
+      </tr>
       }
     </tbody>
   </table>

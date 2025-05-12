@@ -1,0 +1,44 @@
+<div class="container form-container">
+  <div class="header-content">
+    <p>Add Task</p>
+    <div class="options">
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+      <button class="btn btn-success" (click)="submitForm()">Create</button>
+    </div>
+  </div>
+  <form class="common-form" [formGroup]="createForm">
+
+    <div class="mb-3">
+      <app-select-dropdown
+        [searchable]="true"
+        bindLabel="ProjectName"
+        bindValue="ProjectId"
+        placeholder="Select project"
+        label="Select project"
+        formControlName="projectId"
+        [items]="projectsList"
+      />
+    </div>
+    
+    <div class="mb-3">
+      <label for="task-name" class="form-label">Task name</label>
+      <input
+        type="text"
+        id="task-name"
+        class="form-control"
+        placeholder="Enter task name"
+        formControlName="taskName"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="hours" class="form-label">Allocate hours</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="allocateHours"
+      />
+    </div>
+
+  </form>
+</div>
