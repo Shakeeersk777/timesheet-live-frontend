@@ -9,10 +9,9 @@ body,
 html {
   margin: 0;
   padding: 0;
-  scroll-behavior: smooth; // Enables smooth scrolling for all links
+  scroll-behavior: smooth; 
 }
 
-/* GENERAL */
 a,
 .btn {
   transition: all 300ms ease;
