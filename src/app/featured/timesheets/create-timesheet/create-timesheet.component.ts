@@ -25,6 +25,11 @@ import { LayoutService } from '../../layout/layout.service';
 import { ITimeSheetEntryPayload } from '../timesheet.modal';
 import { TimesheetService } from '../timesheet.service';
 import { AuthService } from '../../../core/services/auth.service';
+import {
+  NgbModal,
+  NgbModule,
+  NgbTimepickerModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-create-timesheet',
@@ -39,6 +44,8 @@ import { AuthService } from '../../../core/services/auth.service';
     SelectDropdownComponent,
     ReactiveFormsModule,
     FormsModule,
+    NgbModule,
+    NgbTimepickerModule,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create-timesheet.component.html',

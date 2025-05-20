@@ -16,6 +16,8 @@ import { Router } from '@angular/router';
 import { LayoutService } from '../../layout/layout.service';
 import { SelectDropdownComponent } from '../../../shared/components/select-dropdown/select-dropdown.component';
 import { ICreateTaskPayload } from '../task.modal';
+import { Store } from '@ngrx/store';
+import { TASK_ACTIONS } from '../../../store/task/task.action';
 
 @Component({
   selector: 'app-create-task',
@@ -25,9 +27,9 @@ import { ICreateTaskPayload } from '../task.modal';
   styleUrl: './create-task.component.scss',
 })
 export class CreateTaskComponent {
+  store = inject(Store);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _taskService: TaskService = inject(TaskService);
   private _layoutService: LayoutService = inject(LayoutService);
   createForm!: FormGroup;
   projectsList: IProjectDropdown[] = [];
@@ -82,17 +84,7 @@ export class CreateTaskComponent {
 
   submitForm(): void {
     if (this.createForm.invalid) return;
-
     const payload = this.prepareRequest();
-
-    const observer = {
-      next: (res: IApiResponce) => {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        if (res._status) this.navigateToList();
-      },
-      error: (err: any) => {},
-    };
-
-    this._taskService.addTask(payload).subscribe(observer);
+    this.store.dispatch(TASK_ACTIONS.ADD_TASK.LOAD({ payload }));
   }
 }

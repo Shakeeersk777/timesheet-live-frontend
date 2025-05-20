@@ -5,19 +5,20 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   IApiResponce,
   IProjectAssignedDropdownResponse,
-  IProjectDropdown,
 } from '../../../core/models/models.interfece';
 import { LayoutService } from '../../layout/layout.service';
-import { TaskService } from '../task.service';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { ITask } from '../task.modal';
 import { formatDate } from '../../../core/utils/common-functions';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { selectTask } from '../../../store/task/task.selector';
+import { TASK_ACTIONS } from '../../../store/task/task.action';
 
 @Component({
   selector: 'app-task-overview',
@@ -27,9 +28,11 @@ import { formatDate } from '../../../core/utils/common-functions';
   styleUrl: './task-overview.component.scss',
 })
 export class TaskOverviewComponent {
+  store = inject(Store);
+  task$: Observable<ITask> = this.store.select(selectTask);
+
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _taskService: TaskService = inject(TaskService);
   private _layoutService: LayoutService = inject(LayoutService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   overviewForm!: FormGroup;
@@ -45,6 +48,12 @@ export class TaskOverviewComponent {
       if (!taskId) return;
       this.geTaskOverview(taskId);
     });
+
+    this.task$.subscribe((res) => {
+      if (!res) return;
+      this.taskOverviewData = res;
+      this.setOverview();
+    });
   }
 
   initForm() {
@@ -58,7 +67,7 @@ export class TaskOverviewComponent {
       endDate: new FormControl(null),
       completedDate: new FormControl(null),
       assignedTo: new FormControl([]),
-      taskStatus:  new FormControl({ value: false, disabled: true }),
+      taskStatus: new FormControl({ value: false, disabled: true }),
       createdDate: new FormControl(null),
       lastUpdated: new FormControl(null),
     });
@@ -79,36 +88,15 @@ export class TaskOverviewComponent {
       error: (err: any) => this._layoutService.onError(err),
     };
 
-    this._layoutService.getProjectAssignedDropdown(projectId).subscribe(observer);
+    this._layoutService
+      .getProjectAssignedDropdown(projectId)
+      .subscribe(observer);
   }
 
   geTaskOverview(taskId: string) {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this.taskOverviewData = res._data;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      if (!this.taskOverviewData) return;
-      this.getProjectAssignedDropdown(this.taskOverviewData.ProjectId);
-      this.setOverview();
-    };
-
-    const onError = (error: any) => {
-      this._layoutService.onError(error);
-    };
-
-    const oberver = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._taskService.getTaskOverview(taskId).subscribe(oberver);
+    this.store.dispatch(TASK_ACTIONS.LOAD_TASK.LOAD({ id: taskId }));
   }
+
   setOverview() {
     const formData = {
       taskId: this.taskOverviewData?.TaskId || null,
@@ -116,13 +104,23 @@ export class TaskOverviewComponent {
       taskName: this.taskOverviewData?.TaskName || '',
       allocateHours: this.taskOverviewData?.TotalAllocatedHours || '',
       totalWorkedHours: this.taskOverviewData?.TotalWorkedHours || 0,
-      startDate: this.taskOverviewData?.StartDate ? formatDate(this.taskOverviewData.StartDate) : null,
-      endDate: this.taskOverviewData?.EndDate ? formatDate(this.taskOverviewData.EndDate) : null,
-      completedDate: this.taskOverviewData?.CompletedDate ? formatDate(this.taskOverviewData.CompletedDate) : null,
+      startDate: this.taskOverviewData?.StartDate
+        ? formatDate(this.taskOverviewData.StartDate)
+        : null,
+      endDate: this.taskOverviewData?.EndDate
+        ? formatDate(this.taskOverviewData.EndDate)
+        : null,
+      completedDate: this.taskOverviewData?.CompletedDate
+        ? formatDate(this.taskOverviewData.CompletedDate)
+        : null,
       assignedTo: this.taskOverviewData?.AssignedEmployeesList || [],
       taskStatus: this.taskOverviewData?.TaskStatus ?? false,
-      createdDate: this.taskOverviewData?.CreatedDate ? formatDate(this.taskOverviewData.CreatedDate) : null,
-      lastUpdated: this.taskOverviewData?.LastUpdated ? formatDate(this.taskOverviewData.LastUpdated) : null,
+      createdDate: this.taskOverviewData?.CreatedDate
+        ? formatDate(this.taskOverviewData.CreatedDate)
+        : null,
+      lastUpdated: this.taskOverviewData?.LastUpdated
+        ? formatDate(this.taskOverviewData.LastUpdated)
+        : null,
     };
     this.overviewForm.patchValue(formData);
   }

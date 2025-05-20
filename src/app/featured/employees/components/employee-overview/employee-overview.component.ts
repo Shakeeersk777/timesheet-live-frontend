@@ -14,9 +14,14 @@ import { SelectDropdownComponent } from '../../../../shared/components/select-dr
 import { ROUTE_NAMES } from '../../../../shared/enums/routes.enum';
 import { LayoutService } from '../../../layout/layout.service';
 import { IEmployee } from '../../employee.model';
-import { EmployeeService } from '../../employee.service';
 import { formatDate } from '../../../../core/utils/common-functions';
 import { AuthService } from '../../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import { EMPLOYEE_ACTIONS } from '../../../../store/employee/employee.action';
+import {
+  selectEmployee,
+  selectUsersLoading,
+} from '../../../../store/employee/employee.selector';
 
 @Component({
   selector: 'app-employee-overview',
@@ -26,9 +31,11 @@ import { AuthService } from '../../../../core/services/auth.service';
   styleUrl: './employee-overview.component.scss',
 })
 export class EmployeeOverviewComponent {
+  store = inject(Store);
+  loading$ = this.store.select(selectUsersLoading);
+
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _employeeService: EmployeeService = inject(EmployeeService);
   private _layoutService: LayoutService = inject(LayoutService);
   private _authService = inject(AuthService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -46,6 +53,17 @@ export class EmployeeOverviewComponent {
       if (empId) {
         this.getEmployeeOverview(empId);
       }
+    });
+
+    this.store.select(selectEmployee).subscribe((res) => {
+      if (!res) return;
+
+      this.employeeOverviewData = res;
+      this.setOverview();
+    });
+
+    this.loading$.subscribe((state: boolean) => {
+      // this._layoutService.updateGlobalLoader(state);
     });
   }
 
@@ -81,29 +99,7 @@ export class EmployeeOverviewComponent {
   }
 
   getEmployeeOverview(empId: string): void {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this.employeeOverviewData = res._data;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      this.setOverview();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.onError(error);
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._employeeService.getEmployeeOverview(empId).subscribe(observer);
+    this.store.dispatch(EMPLOYEE_ACTIONS.LOAD_EMPLOYEE.LOAD({ id: empId }));
   }
 
   setOverview() {

@@ -1,17 +1,21 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
-import { IApiResponce } from '../../../core/models/models.interfece';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { LayoutService } from '../../layout/layout.service';
-import { TimesheetService } from '../timesheet.service';
 import { ITimesheet, TimesheetStatus } from '../timesheet.modal';
 import { formatDate } from '../../../core/utils/common-functions';
+import { AuthService } from '../../../core/services/auth.service';
+import {
+  selectTimesheet,
+  selectTimesheetLoading,
+} from '../../../store/timesheet/timesheet.selector';
+import { Store } from '@ngrx/store';
+import { TIMESHEET_ACTIONS } from '../../../store/timesheet/timesheet.action';
 
 @Component({
   selector: 'app-timesheet-overview',
@@ -21,17 +25,25 @@ import { formatDate } from '../../../core/utils/common-functions';
   styleUrl: './timesheet-overview.component.scss',
 })
 export class TimesheetOverviewComponent {
+  store = inject(Store);
+  timesheets$ = this.store.select(selectTimesheet);
+  loading$ = this.store.select(selectTimesheetLoading);
+
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _layoutService: LayoutService = inject(LayoutService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   overviewForm!: FormGroup;
   timesheetOverviewData: ITimesheet | null | undefined;
   approvalStatus = TimesheetStatus;
-  private _timesheetService: TimesheetService = inject(TimesheetService);
+  private _authService: AuthService = inject(AuthService);
   timesheetId = '';
+  isAdmin: boolean = false;
 
   ngOnInit(): void {
+    const currentUser = this._authService.getCurrentUser();
+    if (!currentUser) return;
+    this.isAdmin = currentUser.isAdmin;
+
     this.initForm();
 
     this.activatedRoute.paramMap.subscribe((params) => {
@@ -39,6 +51,12 @@ export class TimesheetOverviewComponent {
 
       if (!this.timesheetId) return;
       this.getTimesheetOverview();
+    });
+
+    this.timesheets$.subscribe((res: ITimesheet) => {
+      if (!res) return;
+      this.timesheetOverviewData = res;
+      this.setOverview();
     });
   }
 
@@ -55,60 +73,18 @@ export class TimesheetOverviewComponent {
   }
 
   getTimesheetOverview() {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this.timesheetOverviewData = res._data;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      if (!this.timesheetOverviewData) return;
-      this.setOverview();
-    };
-
-    const onError = (error: any) => {
-      this._layoutService.onError(error);
-    };
-
-    const oberver = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._timesheetService
-      .getTimesheetOverview(this.timesheetId)
-      .subscribe(oberver);
+    this.store.dispatch(
+      TIMESHEET_ACTIONS.LOAD_TIMESHEET.LOAD({ id: this.timesheetId })
+    );
   }
 
   updateApprovalStatus(approvalStatus: TimesheetStatus) {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      this.getTimesheetOverview();
-    };
-
-    const onError = (error: any) => {
-      this._layoutService.onError(error);
-    };
-
-    const oberver = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    if (!this.timesheetOverviewData?.Id) return;
-
-    this._timesheetService
-      .updateApprovalStatus(this.timesheetId, approvalStatus)
-      .subscribe(oberver);
+    this.store.dispatch(
+      TIMESHEET_ACTIONS.UPDATE_APPROVAL_STATUS.LOAD({
+        id: this.timesheetId,
+        status: approvalStatus,
+      })
+    );
   }
 
   setOverview() {

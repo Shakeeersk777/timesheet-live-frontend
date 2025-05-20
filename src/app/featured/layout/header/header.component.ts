@@ -3,12 +3,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule],
+  imports: [CommonModule, NgbTooltipModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
 
   onView() {
     this._router.navigateByUrl(
-      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.EMPLOYEE.BASE}/${ROUTE_NAMES.EMPLOYEE.OVERVIEW}/${this.userId}`
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.AUTH.BASE}/${ROUTE_NAMES.AUTH.PROFILE}/${ROUTE_NAMES.AUTH.OVERVIEW}/${this.userId}`
     );
   }
 

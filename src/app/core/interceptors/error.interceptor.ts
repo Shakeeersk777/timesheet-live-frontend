@@ -15,7 +15,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       _layoutService.openSnackBar(err, false);
 
       if (error.status === 401) {
-        router.navigate(['/login']);
+        router.navigateByUrl(
+          `${ROUTE_NAMES.AUTH.BASE}/${ROUTE_NAMES.AUTH.LOGIN}`
+        );
       } else if (error.status === 403) {
         router.navigateByUrl(ROUTE_NAMES.ACCESS_DENIED);
       }

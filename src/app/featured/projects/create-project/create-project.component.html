@@ -1,7 +1,12 @@
-<p mat-dialog-title>Add Project</p>
-
-<mat-dialog-content>
-  <form [formGroup]="createEProjectForm">
+<div class="container form-container">
+  <div class="header-content">
+    <p>Add Project</p>
+    <div class="options">
+      <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
+      <button class="btn btn-success" (click)="submitForm()">Create</button>
+    </div>
+  </div>
+  <form class="common-form" [formGroup]="createEProjectForm">
     <div class="mb-3">
       <label for="hours" class="form-label">Project Name</label>
       <input class="form-control" formControlName="projectName" />
@@ -15,9 +20,4 @@
       />
     </div>
   </form>
-</mat-dialog-content>
-
-<mat-dialog-actions>
-  <button class="btn btn-light me-2" (click)="onCancel()">Cancel</button>
-  <button class="btn btn-success" (click)="submitForm()">Create</button>
-</mat-dialog-actions>
+</div>

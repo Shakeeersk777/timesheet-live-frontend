@@ -27,7 +27,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.getCurrentUser()?.isAdmin ?? false;
+    return !!(this.getCurrentUser()?.isAdmin);
   }
 
   getToken(): string | null {
@@ -40,6 +40,6 @@ export class AuthService {
 
   logout() {
     this.clearCurrentUser();
-    this._router.navigateByUrl(ROUTE_NAMES.LOGIN);
+    this._router.navigateByUrl(ROUTE_NAMES.AUTH.BASE);
   }
 }

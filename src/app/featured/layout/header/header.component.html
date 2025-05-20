@@ -17,13 +17,13 @@
   </div>
 
   <nav class="nav-links">
-    @if(!isAdmin){
+    <!-- @if(!isAdmin){ -->
     <a class="profile">
-      <i matTooltip="Profile" class="fa fa-user-circle" (click)="onView()"></i>
+      <i ngbTooltip="Profile" placement="bottom" class="fa fa-user-circle" (click)="onView()"></i>
     </a>
-    }
+    <!-- } -->
     <a class="logout" (click)="onLogout()">
-      <i matTooltip="Logout" class="fa fa-sign-out-alt"></i>
+      <i ngbTooltip="Logout" placement="bottom" class="fa fa-sign-out-alt"></i>
     </a>
   </nav>
 </div>

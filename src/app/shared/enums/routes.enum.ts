@@ -2,16 +2,23 @@ export const ROUTE_NAMES = {
   BASE: '',
   WILD_CARD: '**',
   APP: 'app',
-  LOGIN: 'login',
   LOGOUT: 'logout',
   DASHBOARD: 'dashboard',
   ACCESS_DENIED: 'access-denied',
+  AUTH: {
+    BASE: 'auth',
+    LOGIN: 'login',
+    FORGOT_PASSWORD: 'forgot-password',
+    RESET_PASSWORD: 'reset-password',
+    PROFILE:'profile',
+    OVERVIEW: 'overview'
+  },
   EMPLOYEE: {
     BASE: 'employees',
     CREATE: 'create',
     EDIT: 'edit',
     LIST: 'manage',
-    OVERVIEW: 'overview'
+    OVERVIEW: 'overview',
   },
   TIMESHEET: {
     BASE: 'timesheets',
@@ -26,7 +33,7 @@ export const ROUTE_NAMES = {
     EDIT: 'edit',
     LIST: 'manage',
     ASSIGN: 'assign',
-    OVERVIEW: 'overview'
+    OVERVIEW: 'overview',
   },
   TASK: {
     BASE: 'tasks',

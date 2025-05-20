@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
-import { canActivateFn } from '../../core/guards/auth.guard';
+import { roleGuard } from '../../core/guards/role.guard';
 
 export const tasksRoutes: Routes = [
   {
     path: ROUTE_NAMES.TASK.CREATE,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./create-task/create-task.component').then(
         (component) => component.CreateTaskComponent
@@ -14,7 +14,7 @@ export const tasksRoutes: Routes = [
   },
   {
     path: `${ROUTE_NAMES.TASK.EDIT}/:id`,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./edit-task/edit-task.component').then(
         (component) => component.EditTaskComponent
@@ -39,7 +39,7 @@ export const tasksRoutes: Routes = [
   },
   {
     path: ROUTE_NAMES.TASK.ASSIGN,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./assign-task/assign-task.component').then(
         (component) => component.AssignTaskComponent

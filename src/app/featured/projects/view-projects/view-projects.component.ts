@@ -2,18 +2,19 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TableViewComponent } from '../../../shared/components/table-view/table-view.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { AssignProjectComponent } from '../assign-project/assign-project.component';
 import { IProject } from '../project.modal';
 import { LayoutService } from '../../layout/layout.service';
-import {
-  IApiResponce,
-  IColumnDef,
-} from '../../../core/models/models.interfece';
-import { ProjectService } from '../project.service';
+import { IColumnDef } from '../../../core/models/models.interfece';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { CreateProjectComponent } from '../create-project/create-project.component';
 import { ConfirmPopupComponent } from '../../../shared/components/confirm-popup/confirm-popup.component';
 import { AuthService } from '../../../core/services/auth.service';
+import { Store } from '@ngrx/store';
+import {
+  selectAllProjects,
+  selectProjectsLoading,
+} from '../../../store/project/project.selector';
+import { PROJECT_ACTIONS } from '../../../store/project/project.action';
 
 @Component({
   selector: 'app-view-projects',
@@ -23,10 +24,13 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './view-projects.component.scss',
 })
 export class ViewProjectsComponent {
+  store = inject(Store);
+  projects$ = this.store.select(selectAllProjects);
+  loading$ = this.store.select(selectProjectsLoading);
+
   private _router: Router = inject(Router);
   private _dialog: MatDialog = inject(MatDialog);
   private _layoutService: LayoutService = inject(LayoutService);
-  private _projectService: ProjectService = inject(ProjectService);
   private _authService: AuthService = inject(AuthService);
   projectList: IProject[] = [];
   isAdmin = false;
@@ -45,20 +49,22 @@ export class ViewProjectsComponent {
   ngOnInit(): void {
     this.isAdmin = this._authService.isAdmin();
     this.getProjects();
+
+    this.projects$.subscribe((res: IProject[]) => {
+      if (!res) return;
+
+      this.projectList = res;
+    });
+
+    this.loading$.subscribe((state) =>
+      this._layoutService.updateTableLoaderState(state)
+    );
   }
 
   onAdd() {
-    const dialogRef = this._dialog.open(CreateProjectComponent, {
-      width: '400px',
-      maxHeight: '90vh',
-      disableClose: false,
-    });
-
-    dialogRef.afterClosed().subscribe((data) => {
-      if (data?.success) {
-        this.getProjects();
-      }
-    });
+    this._router.navigateByUrl(
+      `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.CREATE}`
+    );
   }
 
   onAssign() {
@@ -82,57 +88,13 @@ export class ViewProjectsComponent {
   }
 
   getProjects(): void {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      if (res._status) {
-        this.projectList = res._data;
-      } else {
-        this.projectList = [];
-        this._layoutService.openSnackBar(res._msg, res._status);
-      }
-
-      this._layoutService.stopTableLoaderState();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.onError(error);
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._projectService.getAllProjects().subscribe(observer);
+    this.store.dispatch(PROJECT_ACTIONS.LOAD_PROJECTS.LOAD());
   }
 
   deleteProject(project: IProject) {
-    this._layoutService.showTableLoaderState();
-
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this._layoutService.openSnackBar(res._msg, res._status);
-
-      if (!res._status) {
-        this._layoutService.showTableLoaderState();
-        return;
-      }
-
-      this.getProjects();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.onError(error);
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._projectService.deleteProject(project.ProjectId).subscribe(observer);
+    this.store.dispatch(
+      PROJECT_ACTIONS.DELETE_PROJECT.LOAD({ id: project.ProjectId })
+    );
   }
 
   onUpdate(project: IProject) {

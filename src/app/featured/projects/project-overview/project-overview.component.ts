@@ -13,9 +13,14 @@ import {
 import { SelectDropdownComponent } from '../../../shared/components/select-dropdown/select-dropdown.component';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { LayoutService } from '../../layout/layout.service';
-import { ProjectService } from '../project.service';
 import { IProject } from '../project.modal';
 import { formatDate } from '../../../core/utils/common-functions';
+import {
+  selectProject,
+  selectProjectsLoading,
+} from '../../../store/project/project.selector';
+import { Store } from '@ngrx/store';
+import { PROJECT_ACTIONS } from '../../../store/project/project.action';
 
 @Component({
   selector: 'app-project-overview',
@@ -25,9 +30,12 @@ import { formatDate } from '../../../core/utils/common-functions';
   styleUrl: './project-overview.component.scss',
 })
 export class ProjectOverviewComponent {
+  store = inject(Store);
+  projects$ = this.store.select(selectProject);
+  loading$ = this.store.select(selectProjectsLoading);
+
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _projectService: ProjectService = inject(ProjectService);
   private _layoutService: LayoutService = inject(LayoutService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   overviewForm!: FormGroup;
@@ -44,6 +52,13 @@ export class ProjectOverviewComponent {
       if (projectId) {
         this.getProjectOverview(projectId);
       }
+    });
+
+    this.projects$.subscribe((res: IProject) => {
+      if (!res) return;
+
+      this.projectOverviewData = res;
+      this.setOverview();
     });
   }
 
@@ -81,29 +96,7 @@ export class ProjectOverviewComponent {
   }
 
   getProjectOverview(projectId: string): void {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this.projectOverviewData = res._data;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      this.setOverview();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.onError(error);
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._projectService.getProjectOverview(projectId).subscribe(observer);
+    this.store.dispatch(PROJECT_ACTIONS.LOAD_PROJECT.LOAD({ id: projectId }));
   }
 
   setOverview() {

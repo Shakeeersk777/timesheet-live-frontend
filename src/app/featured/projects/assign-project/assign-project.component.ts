@@ -9,15 +9,14 @@ import {
 import { Router } from '@angular/router';
 import { SelectDropdownComponent } from '../../../shared/components/select-dropdown/select-dropdown.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { IEmployee } from '../../employees/employee.model';
 import {
   IApiResponce,
   IDropdownResponse,
 } from '../../../core/models/models.interfece';
 import { LayoutService } from '../../layout/layout.service';
-import { ProjectService } from '../project.service';
-import { IProject } from '../project.modal';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
+import { Store } from '@ngrx/store';
+import { PROJECT_ACTIONS } from '../../../store/project/project.action';
 
 @Component({
   selector: 'app-assign-project',
@@ -27,13 +26,13 @@ import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
   styleUrl: './assign-project.component.scss',
 })
 export class AssignProjectComponent {
+  store = inject(Store);
   formBuilder = inject(FormBuilder);
   router: Router = inject(Router);
   assignProjectForm!: FormGroup;
   dropdownData: IDropdownResponse | undefined;
 
   private _layoutService: LayoutService = inject(LayoutService);
-  private _projectService: ProjectService = inject(ProjectService);
 
   ngOnInit(): void {
     this.initForm();
@@ -75,18 +74,11 @@ export class AssignProjectComponent {
     if (this.assignProjectForm.invalid) return;
 
     const payload = this.prepareRequest();
-    const observer = {
-      next: (res: IApiResponce) => {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        if (res._status) this.navigateToList();
-      },
-      error: (err: any) => {
-        this._layoutService.onError(err);
-      },
-    };
-
     const projectId = this.assignProjectForm.value.projectId;
-    this._projectService.assignProject(projectId, payload).subscribe(observer);
+
+    this.store.dispatch(
+      PROJECT_ACTIONS.ASSIGN_PROJECT.LOAD({ id: projectId, payload })
+    );
   }
 
   prepareRequest() {

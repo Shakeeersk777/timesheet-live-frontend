@@ -1,0 +1,10 @@
+@import '../../../styles/manage-screens.scss';
+
+::ng-deep .mat-tab-group .mat-ink-bar {
+  background-color: #e91e63 !important; // hot pink as a visible test
+}
+
+::ng-deep .mat-tab-label.mat-tab-label-active {
+  color: #e91e63 !important;
+  font-weight: bold;
+}

@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivityOverviewComponent } from '../pages/activity-overview/activity-overview.component';
-import { DashboardService } from '../dashboard.service';
 import { IActivityOverviewWidget } from '../dashboard.modal';
-import { LayoutService } from '../../layout/layout.service';
-import { IApiResponce } from '../../../core/models/models.interfece';
+import { selectActivityOverview } from '../../../store/dashboard/dashboard.selector';
+import { Store } from '@ngrx/store';
+import { DASHBOARD_ACTIONS } from '../../../store/dashboard/dashboard.action';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,28 +13,23 @@ import { IApiResponce } from '../../../core/models/models.interfece';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
-  private _dashboardService: DashboardService = inject(DashboardService);
+  store = inject(Store);
+  activityOverview$ = this.store.select(selectActivityOverview);
+
   activityOverviewData!: IActivityOverviewWidget;
-  private _layoutService: LayoutService = inject(LayoutService);
 
   ngOnInit(): void {
     this.getActivityOverview();
+
+    this.activityOverview$.subscribe((res) => {
+      if (!res) return;
+      console.log({ res });
+
+      this.activityOverviewData = res;
+    });
   }
 
   getActivityOverview() {
-    const onSuccess = (res: IApiResponce) => {
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-      }
-
-      this.activityOverviewData = res._data;
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: (err: any) => this._layoutService.onError(err),
-    };
-
-    this._dashboardService.getActivityOverview().subscribe(observer);
+    this.store.dispatch(DASHBOARD_ACTIONS.ACTIVITY_OVERVIEW.LOAD());
   }
 }

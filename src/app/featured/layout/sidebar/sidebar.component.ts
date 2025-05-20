@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter } from 'rxjs';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { SIDEBAR_LIST } from '../../../core/constants/constants';
 import { ISidebarItem } from '../../../core/models/models.interfece';
 import { AuthService } from '../../../core/services/auth.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule],
+  imports: [CommonModule, NgbTooltipModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })

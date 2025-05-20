@@ -6,18 +6,17 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import {
-  IApiResponce,
   IHeaderButton,
 } from '../../../../core/models/models.interfece';
 import { ROUTE_NAMES } from '../../../../shared/enums/routes.enum';
-import { LayoutService } from '../../../layout/layout.service';
 import { ICreateEmployee } from '../../employee.model';
-import { EmployeeService } from '../../employee.service';
 import { CommonHeaderComponent } from '../../../../shared/components/common-header/common-header.component';
 import { BUTTON_NAMES } from '../../../../core/constants/constants';
 import { EMPLOYEE_HEADER_NAMES } from '../../employee.enum';
+import { Store } from '@ngrx/store';
+import { EMPLOYEE_ACTIONS } from '../../../../store/employee/employee.action';
 
 @Component({
   selector: 'app-create-employee',
@@ -27,12 +26,10 @@ import { EMPLOYEE_HEADER_NAMES } from '../../employee.enum';
   styleUrl: './create-employee.component.scss',
 })
 export class CreateEmployeeComponent {
+  private store = inject(Store);
   title = EMPLOYEE_HEADER_NAMES.ADD_EMPLOYEE;
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _employeeService: EmployeeService = inject(EmployeeService);
-  private _layoutService: LayoutService = inject(LayoutService);
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   createForm!: FormGroup;
   buttonsList: IHeaderButton[] = [
     {
@@ -63,7 +60,6 @@ export class CreateEmployeeComponent {
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
     });
   }
 
@@ -74,7 +70,6 @@ export class CreateEmployeeComponent {
       FirstName: formData.firstName,
       LastName: formData.lastName,
       Email: formData.email,
-      Password: formData.password,
     };
 
     return responseBody;
@@ -90,15 +85,6 @@ export class CreateEmployeeComponent {
     if (this.createForm.invalid) return;
 
     const payload = this.prepareRequest();
-
-    const observer = {
-      next: (res: IApiResponce) => {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        if (res._status) this.navigateToList();
-      },
-      error: (err: any) => {},
-    };
-
-    this._employeeService.addEmployee(payload).subscribe(observer);
+    this.store.dispatch(EMPLOYEE_ACTIONS.ADD_EMPLOYEE.LOAD({ payload }));
   }
 }

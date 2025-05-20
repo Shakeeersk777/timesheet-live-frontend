@@ -16,11 +16,9 @@ export interface ICreateEmployee {
   FirstName: string;
   LastName: string;
   Email: string;
-  Password: string;
 }
 
 export interface IEditEmployee {
-  EmployeeId: string;
   FirstName: string;
   LastName: string;
   Email: string;

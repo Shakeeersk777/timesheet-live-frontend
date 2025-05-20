@@ -15,7 +15,7 @@
       >
         {{ timesheetOverviewData.Status }}
       </button>
-      } @else {
+      } @else { @if (isAdmin) {
       <button
         class="btn btn-success"
         (click)="updateApprovalStatus(approvalStatus.APPROVED)"
@@ -28,7 +28,11 @@
       >
         Reject
       </button>
-      }}
+      }@else { @if (timesheetOverviewData.Status === approvalStatus.PENDING) {
+      <button disabled class="btn btn-warning">
+        {{ timesheetOverviewData.Status }}
+      </button>
+      } } } }
       <button class="btn btn-secondary" (click)="navigateToList()">Back</button>
     </div>
   </div>

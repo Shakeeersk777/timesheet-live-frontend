@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
-import { canActivateFn } from '../../core/guards/auth.guard';
+import { roleGuard } from '../../core/guards/role.guard';
 
 export const projectsRoutes: Routes = [
   {
@@ -12,8 +12,16 @@ export const projectsRoutes: Routes = [
     title: 'View Projects',
   },
   {
+    path: ROUTE_NAMES.PROJECT.CREATE,
+    loadComponent: () =>
+      import('./create-project/create-project.component').then(
+        (component) => component.CreateProjectComponent
+      ),
+    title: 'Create Project',
+  },
+  {
     path: `${ROUTE_NAMES.PROJECT.EDIT}/:id`,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./edit-project/edit-project.component').then(
         (component) => component.EditProjectComponent
@@ -30,7 +38,7 @@ export const projectsRoutes: Routes = [
   },
   {
     path: ROUTE_NAMES.PROJECT.ASSIGN,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./assign-project/assign-project.component').then(
         (component) => component.AssignProjectComponent

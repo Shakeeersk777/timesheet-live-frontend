@@ -18,7 +18,6 @@ export class LayoutService {
   isShowGlobalLoader = new BehaviorSubject<boolean>(false);
 
   showGlobalLoader() {
-    console.log('showGlobalLoader called');
     this.isShowGlobalLoader.next(true);
     this._spinnerService.show();
   }
@@ -26,6 +25,11 @@ export class LayoutService {
   hideGlobalLoader() {
     this.isShowGlobalLoader.next(false);
     this._spinnerService.hide();
+  }
+
+  updateGlobalLoader(state: boolean): void {
+    this.isShowGlobalLoader.next(state);
+    state ? this._spinnerService.show() : this._spinnerService.hide();
   }
 
   getDropdownData(): Observable<any> {
@@ -38,6 +42,10 @@ export class LayoutService {
 
   stopTableLoaderState() {
     this.tableLoaderState.next(false);
+  }
+
+  updateTableLoaderState(state: boolean) {
+    this.tableLoaderState.next(state);
   }
 
   openSnackBar(message: string, status: boolean) {
@@ -56,6 +64,8 @@ export class LayoutService {
   }
 
   getProjectAssignedDropdown(projectId: string): Observable<any> {
-    return this._apiService.getService(`/projects/assigned-employees/dropdown/${projectId}`);
+    return this._apiService.getService(
+      `/projects/assigned-employees/dropdown/${projectId}`
+    );
   }
 }

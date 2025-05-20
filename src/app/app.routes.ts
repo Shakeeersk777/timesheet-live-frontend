@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from './shared/enums/routes.enum';
+import { authGuard } from './core/guards/auth.guard';
+import { ProfileOptionsComponent } from './featured/accounts/profile-options/profile-options.component';
 
 export const routes: Routes = [
   {
@@ -9,6 +11,7 @@ export const routes: Routes = [
   },
   {
     path: ROUTE_NAMES.APP,
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./featured/layout/layout.component').then(
         (component) => component.LayoutComponent
@@ -25,6 +28,7 @@ export const routes: Routes = [
           import('./featured/dashboard/components/dashboard.component').then(
             (component) => component.DashboardComponent
           ),
+        title: 'Dashboard',
       },
       {
         path: ROUTE_NAMES.EMPLOYEE.BASE,
@@ -61,15 +65,36 @@ export const routes: Routes = [
             (routes) => routes.reportsRoutes
           ),
       },
+      {
+        path: `${ROUTE_NAMES.AUTH.BASE}/${ROUTE_NAMES.AUTH.PROFILE}`,
+        component: ProfileOptionsComponent,
+        children: [
+          {
+            path: `${ROUTE_NAMES.AUTH.OVERVIEW}/:id`,
+            loadComponent: () =>
+              import('./featured/accounts/profile/profile.component').then(
+                (m) => m.ProfileComponent
+              ),
+            title: 'Profile',
+          },
+          {
+            path: ROUTE_NAMES.AUTH.RESET_PASSWORD,
+            loadComponent: () =>
+              import(
+                './featured/accounts/reset-password/reset-password.component'
+              ).then((m) => m.ResetPasswordComponent),
+            title: 'Reset Password',
+          },
+        ],
+      },
     ],
   },
   {
-    path: ROUTE_NAMES.LOGIN,
-    loadComponent: () =>
-      import('./featured/accounts/login/login.component').then(
-        (component) => component.LoginComponent
+    path: ROUTE_NAMES.AUTH.BASE,
+    loadChildren: () =>
+      import('./featured/accounts/accounts.routes').then(
+        (routes) => routes.accountRoutes
       ),
-    title: 'Login',
   },
   {
     path: ROUTE_NAMES.ACCESS_DENIED,

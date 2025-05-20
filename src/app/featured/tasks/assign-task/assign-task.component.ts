@@ -7,18 +7,17 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TaskService } from '../task.service';
 import { Router } from '@angular/router';
 import {
   IDropdownResponse,
   IApiResponce,
-  ITaskDropdown,
-  IEmployeeDropdown,
   IProjectAssignedDropdownResponse,
 } from '../../../core/models/models.interfece';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
 import { LayoutService } from '../../layout/layout.service';
 import { IAssignTaskPayload } from '../task.modal';
+import { Store } from '@ngrx/store';
+import { TASK_ACTIONS } from '../../../store/task/task.action';
 
 @Component({
   selector: 'app-assign-task',
@@ -28,14 +27,13 @@ import { IAssignTaskPayload } from '../task.modal';
   styleUrl: './assign-task.component.scss',
 })
 export class AssignTaskComponent {
+  store = inject(Store);
   formBuilder = inject(FormBuilder);
   router: Router = inject(Router);
   assignProjectForm!: FormGroup;
   dropdownData: IDropdownResponse | undefined;
   projectAssignedDropdown: IProjectAssignedDropdownResponse | undefined;
-
   private _layoutService: LayoutService = inject(LayoutService);
-  private _taskService: TaskService = inject(TaskService);
 
   ngOnInit(): void {
     this.initForm();
@@ -105,17 +103,9 @@ export class AssignTaskComponent {
   submitForm(): void {
     if (this.assignProjectForm.invalid) return;
 
-    const observer = {
-      next: (res: IApiResponce) => {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        if (res._status) this.navigateToList();
-      },
-      error: (err: any) => this._layoutService.onError(err),
-    };
-
     const taskId = this.assignProjectForm.controls['taskId'].value;
     const payload = this.prepareRequest();
-    this._taskService.assignTask(taskId, payload).subscribe(observer);
+    this.store.dispatch(TASK_ACTIONS.ASSIGN_TASK.LOAD({ id: taskId, payload }));
   }
 
   prepareRequest(): IAssignTaskPayload {

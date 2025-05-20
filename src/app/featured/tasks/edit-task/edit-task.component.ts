@@ -14,9 +14,12 @@ import {
   IProjectDropdown,
 } from '../../../core/models/models.interfece';
 import { LayoutService } from '../../layout/layout.service';
-import { TaskService } from '../task.service';
 import { ITask, ITaskUpdatePayload } from '../task.modal';
 import { formatDate } from '../../../core/utils/common-functions';
+import { Store } from '@ngrx/store';
+import { TASK_ACTIONS } from '../../../store/task/task.action';
+import { Observable } from 'rxjs/internal/Observable';
+import { selectTask } from '../../../store/task/task.selector';
 
 @Component({
   selector: 'app-edit-task',
@@ -26,10 +29,12 @@ import { formatDate } from '../../../core/utils/common-functions';
   styleUrl: './edit-task.component.scss',
 })
 export class EditTaskComponent {
+  store = inject(Store);
+  task$: Observable<ITask> = this.store.select(selectTask);
+
   private router: Router = inject(Router);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private _layoutService: LayoutService = inject(LayoutService);
-  private _taskService: TaskService = inject(TaskService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   editForm!: FormGroup;
   projectsList: IProjectDropdown[] = [];
@@ -43,6 +48,12 @@ export class EditTaskComponent {
 
       if (!taskId) return;
       this.geTaskOverview(taskId);
+    });
+
+    this.task$.subscribe((res) => {
+      if (!res) return;
+      this.taskOverviewData = res;
+      this.setOverview();
     });
   }
 
@@ -78,31 +89,7 @@ export class EditTaskComponent {
   }
 
   geTaskOverview(taskId: string) {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this.taskOverviewData = res._data;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      if (!this.taskOverviewData) return;
-      this.getProjectAssignedDropdown(this.taskOverviewData.ProjectId);
-      this.setOverview();
-    };
-
-    const onError = (error: any) => {
-      this._layoutService.onError(error);
-    };
-
-    const oberver = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._taskService.getTaskOverview(taskId).subscribe(oberver);
+    this.store.dispatch(TASK_ACTIONS.LOAD_TASK.LOAD({ id: taskId }));
   }
 
   getProjectAssignedDropdown(projectId: string): void {
@@ -120,7 +107,9 @@ export class EditTaskComponent {
       error: (err: any) => this._layoutService.onError(err),
     };
 
-    this._layoutService.getProjectAssignedDropdown(projectId).subscribe(observer);
+    this._layoutService
+      .getProjectAssignedDropdown(projectId)
+      .subscribe(observer);
   }
 
   setOverview() {
@@ -129,9 +118,15 @@ export class EditTaskComponent {
       taskName: this.taskOverviewData?.TaskName ?? '',
       allocateHours: this.taskOverviewData?.TotalAllocatedHours ?? 0,
       totalWorkedHours: this.taskOverviewData?.TotalWorkedHours ?? 0,
-      startDate: this.taskOverviewData?.StartDate ? formatDate(this.taskOverviewData.StartDate) : null,
-      endDate: this.taskOverviewData?.EndDate ? formatDate(this.taskOverviewData.EndDate) : null,
-      completedDate: this.taskOverviewData?.CompletedDate ? formatDate(this.taskOverviewData.CompletedDate) : null,
+      startDate: this.taskOverviewData?.StartDate
+        ? formatDate(this.taskOverviewData.StartDate)
+        : null,
+      endDate: this.taskOverviewData?.EndDate
+        ? formatDate(this.taskOverviewData.EndDate)
+        : null,
+      completedDate: this.taskOverviewData?.CompletedDate
+        ? formatDate(this.taskOverviewData.CompletedDate)
+        : null,
       assignedTo: this.taskOverviewData?.AssignedEmployeesList ?? [],
       taskStatus: this.taskOverviewData?.TaskStatus ?? false,
     };
@@ -143,17 +138,8 @@ export class EditTaskComponent {
     if (this.editForm.invalid) return;
 
     const payload = this.prepareRequest();
-
-    const observer = {
-      next: (res: IApiResponce) => {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        if (res._status) this.navigateToList();
-      },
-      error: (err: any) => {},
-    };
-
     const taskId = this.editForm.controls['taskId'].value;
-    this._taskService.updateTask(taskId, payload).subscribe(observer);
+    this.store.dispatch(TASK_ACTIONS.UPDATE_TASK.LOAD({ id: taskId, payload }));
   }
 
   prepareRequest() {

@@ -1,0 +1,98 @@
+<div class="container form-container">
+
+  <form class="common-form" [formGroup]="overviewForm">
+    <div class="mb-3 form-check">
+      <input
+        type="checkbox"
+        class="form-check-input"
+        id="activeStatus"
+        formControlName="activeStatus"
+      />
+      <label class="form-check-label" for="activeStatus">Active Status</label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="id" class="form-label">Employee ID</label>
+        <input
+          type="text"
+          id="id"
+          class="form-control"
+          placeholder="Employee id"
+          formControlName="id"
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="Enter employee email"
+          formControlName="email"
+        />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="firstName" class="form-label">First name</label>
+        <input
+          type="text"
+          id="firstName"
+          class="form-control"
+          placeholder="Enter First name"
+          formControlName="firstName"
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastName" class="form-label">Last name</label>
+        <input
+          type="text"
+          id="lastName"
+          class="form-control"
+          placeholder="Enter Last name"
+          formControlName="lastName"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <app-select-dropdown
+        bindLabel="ProjectName"
+        bindValue="ProjectId"
+        placeholder="Assigned projects"
+        label="Assigned Projects"
+        formControlName="assignedProjects"
+        [multiple]="true"
+        [items]="dropdownData?.projects || []"
+        [clearable]="false"
+        [disabled]="true"
+      />
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="username" class="form-label">Created date</label>
+        <input
+          type="date"
+          id="createdDate"
+          class="form-control"
+          placeholder="Created date"
+          formControlName="createdDate"
+          readonly
+        />
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="lastUpdated" class="form-label">Last Updated</label>
+        <input
+          type="date"
+          id="lastUpdated"
+          class="form-control"
+          placeholder="Last updated timestamp"
+          formControlName="lastUpdated"
+        />
+      </div>
+    </div>
+  </form>
+</div>

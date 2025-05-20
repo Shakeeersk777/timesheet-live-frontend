@@ -7,11 +7,11 @@ import {
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { IApiResponce } from '../../../../core/models/models.interfece';
 import { ROUTE_NAMES } from '../../../../shared/enums/routes.enum';
-import { LayoutService } from '../../../layout/layout.service';
 import { IEmployee, IEditEmployee } from '../../employee.model';
-import { EmployeeService } from '../../employee.service';
+import { Store } from '@ngrx/store';
+import { EMPLOYEE_ACTIONS } from '../../../../store/employee/employee.action';
+import { selectEmployee } from '../../../../store/employee/employee.selector';
 
 @Component({
   selector: 'app-edit-employee',
@@ -21,10 +21,9 @@ import { EmployeeService } from '../../employee.service';
   styleUrl: './edit-employee.component.scss',
 })
 export class EditEmployeeComponent {
+  store = inject(Store);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private _employeeService: EmployeeService = inject(EmployeeService);
-  private _layoutService: LayoutService = inject(LayoutService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   editForm!: FormGroup;
   employeeOverviewData!: IEmployee;
@@ -39,6 +38,13 @@ export class EditEmployeeComponent {
         this.getEmployeeOverview(empId);
       }
     });
+
+    this.store.select(selectEmployee).subscribe((res) => {
+      if (!res) return;
+
+      this.employeeOverviewData = res;
+      this.setOverview();
+    });
   }
 
   initForm() {
@@ -52,29 +58,7 @@ export class EditEmployeeComponent {
   }
 
   getEmployeeOverview(empId: string): void {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this.employeeOverviewData = res._data;
-
-      if (!res._status) {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        return;
-      }
-
-      this.setOverview();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.onError(error);
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._employeeService.getEmployeeOverview(empId).subscribe(observer);
+    this.store.dispatch(EMPLOYEE_ACTIONS.LOAD_EMPLOYEE.LOAD({ id: empId }));
   }
 
   setOverview() {
@@ -93,7 +77,6 @@ export class EditEmployeeComponent {
     const formData = this.editForm.getRawValue();
 
     const responseBody: IEditEmployee = {
-      EmployeeId: formData.id,
       FirstName: formData.firstName,
       LastName: formData.lastName,
       Email: formData.email,
@@ -111,19 +94,13 @@ export class EditEmployeeComponent {
 
   submitForm(): void {
     if (this.editForm.invalid) return;
-
     const payload = this.prepareRequest();
 
-    const observer = {
-      next: (res: IApiResponce) => {
-        this._layoutService.openSnackBar(res._msg, res._status);
-        if (res._status) this.navigateToList();
-      },
-      error: (err: any) => {},
-    };
-
-    this._employeeService
-      .updateEmployee(this.employeeOverviewData.EmployeeId, payload)
-      .subscribe(observer);
+    this.store.dispatch(
+      EMPLOYEE_ACTIONS.UPDATE_EMPLOYEE.LOAD({
+        payload,
+        id: this.employeeOverviewData.EmployeeId,
+      })
+    );
   }
 }

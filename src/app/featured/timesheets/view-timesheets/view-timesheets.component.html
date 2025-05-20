@@ -1,15 +1,30 @@
 <div class="container manage-list-container">
   <div class="header-content">
     <p>Manage Timesheets</p>
-    @if (!isAdmin) {
+
     <div class="options">
+      <form [formGroup]="filterForm">
+        <div class="d-flex align-items-center gap-2">
+          <label class="form-label mb-0">Choose Status</label>
+          <app-select-dropdown
+            bindValue="Status"
+            bindLabel="Status"
+            [clearable]="false"
+            [items]="statusList"
+            [searchable]="true"
+            formControlName="status"
+            placeholder="Choose Status"
+          />
+        </div>
+      </form>
+      @if (!isAdmin) {
       <button class="btn btn-success" (click)="onAdd()">Add</button>
+      }
     </div>
-    }
   </div>
   <app-table-view
     [columns]="columns"
-    [data]="timesheetList"
+    [data]="filteredTimesheets"
     (overviewEmit)="onView($event)"
   />
 </div>

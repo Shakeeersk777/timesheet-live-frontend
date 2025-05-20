@@ -1,16 +1,19 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROUTE_NAMES } from '../../../../shared/enums/routes.enum';
-import { EmployeeService } from '../../employee.service';
 import { LayoutService } from '../../../layout/layout.service';
 import { TableViewComponent } from '../../../../shared/components/table-view/table-view.component';
-import {
-  IApiResponce,
-  IColumnDef,
-} from '../../../../core/models/models.interfece';
+import { IColumnDef } from '../../../../core/models/models.interfece';
 import { IEmployee } from '../../employee.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmPopupComponent } from '../../../../shared/components/confirm-popup/confirm-popup.component';
+import { Store } from '@ngrx/store';
+import {
+  selectAllEmployees,
+  selectUsersLoading,
+  selectUsersError,
+} from '../../../../store/employee/employee.selector';
+import { EMPLOYEE_ACTIONS } from '../../../../store/employee/employee.action';
 
 @Component({
   selector: 'app-view-employees',
@@ -20,14 +23,18 @@ import { ConfirmPopupComponent } from '../../../../shared/components/confirm-pop
   styleUrl: './view-employees.component.scss',
 })
 export class ViewEmployeesComponent implements OnInit {
+  private store = inject(Store);
+
+  employees$ = this.store.select(selectAllEmployees);
+  loading$ = this.store.select(selectUsersLoading);
+  error$ = this.store.select(selectUsersError);
+
   private _router: Router = inject(Router);
-  private _employeeService: EmployeeService = inject(EmployeeService);
   private _layoutService: LayoutService = inject(LayoutService);
   private _dialog: MatDialog = inject(MatDialog);
   employeeList: IEmployee[] = [];
 
   columnDefs: IColumnDef[] = [
-    // { key: 'EmployeeId', header: 'ID' },
     { key: 'FirstName', header: 'First Name' },
     { key: 'LastName', header: 'Last Name' },
     { key: 'Email', header: 'Email' },
@@ -38,38 +45,20 @@ export class ViewEmployeesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployees();
+
+    this.employees$.subscribe((res: IEmployee[]) => {
+      this.employeeList = res;
+    });
+
+    this.loading$.subscribe((state: boolean) => {
+      this._layoutService.updateTableLoaderState(state);
+    });
   }
 
   onAdd() {
     this._router.navigateByUrl(
       `${ROUTE_NAMES.APP}/${ROUTE_NAMES.EMPLOYEE.BASE}/${ROUTE_NAMES.EMPLOYEE.CREATE}`
     );
-  }
-
-  getEmployees(): void {
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      if (res._status) {
-        this.employeeList = res._data;
-      } else {
-        this.employeeList = [];
-        this._layoutService.openSnackBar(res._msg, res._status);
-      }
-
-      this._layoutService.stopTableLoaderState();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.onError(error);
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._employeeService.getAllEmployees().subscribe(observer);
   }
 
   showDeletePopup(employee: IEmployee) {
@@ -86,32 +75,14 @@ export class ViewEmployeesComponent implements OnInit {
     });
   }
 
+  getEmployees() {
+    this.store.dispatch(EMPLOYEE_ACTIONS.LOAD_EMPLOYEES.LOAD());
+  }
+
   deleteEmployee(employee: IEmployee) {
-    this._layoutService.showTableLoaderState();
-
-    const onSuccess = (res: IApiResponce): void => {
-      if (!res) return;
-
-      this._layoutService.openSnackBar(res._msg, res._status);
-
-      if (!res._status) {
-        this._layoutService.showTableLoaderState();
-        return;
-      }
-
-      this.getEmployees();
-    };
-
-    const onError = (error: any): void => {
-      this._layoutService.showTableLoaderState();
-    };
-
-    const observer = {
-      next: onSuccess,
-      error: onError,
-    };
-
-    this._employeeService.deleteEmployee(employee.EmployeeId).subscribe(observer);
+    this.store.dispatch(
+      EMPLOYEE_ACTIONS.DELETE_EMPLOYEE.LOAD({ id: employee.EmployeeId })
+    );
   }
 
   updateEmployee(employee: IEmployee) {

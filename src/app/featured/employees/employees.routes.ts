@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
-import { canActivateFn } from '../../core/guards/auth.guard';
+import { roleGuard } from '../../core/guards/role.guard';
 
 export const employeeRoutes: Routes = [
   {
@@ -13,7 +13,7 @@ export const employeeRoutes: Routes = [
   },
   {
     path: `${ROUTE_NAMES.EMPLOYEE.EDIT}/:id`,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./components/edit-employee/edit-employee.component').then(
         (component) => component.EditEmployeeComponent
@@ -30,7 +30,7 @@ export const employeeRoutes: Routes = [
   },
   {
     path: ROUTE_NAMES.EMPLOYEE.LIST,
-    canActivate: [canActivateFn],
+    canActivate: [roleGuard],
     loadComponent: () =>
       import('./components/view-employees/view-employees.component').then(
         (component) => component.ViewEmployeesComponent

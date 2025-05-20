@@ -1,6 +1,18 @@
 <div class="container manage-list-container">
   <div class="header-content">
     <p>{{ isAdmin ? "Manage" : "Assigned" }} Tasks</p>
+
+    <div class="d-flex align-items-center gap-2">
+      <label class="form-label mb-0">Choose Project</label>
+      <app-select-dropdown
+        placeholder="Choose Project"
+        bindValue="TaskId"
+        bindLabel="TaskName"
+        [items]="tasksList"
+        [searchable]="true"
+      />
+    </div>
+
     @if (isAdmin) {
     <div class="options">
       <button class="btn btn-success" (click)="onAdd()">Add</button>
