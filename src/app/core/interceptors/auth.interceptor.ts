@@ -3,13 +3,12 @@ import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { map } from 'rxjs';
 import { EncryptionService } from '../services/encryption.service';
-
-const shouldEncrypt = true;
+import { environment } from '../../../environments/environment';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const encryptionService = inject(EncryptionService);
-
+  const shouldEncrypt = environment.encryption;
   const token = authService.getToken();
 
   let modifiedReq = req;
