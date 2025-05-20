@@ -3,7 +3,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ACCOUNTS_ACTION } from './accounts.action';
 import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { AccountsService } from '../../featured/accounts/accounts.service';
-import { IApiResponce } from '../../core/models/models.interfece';
+import {
+  IApiResponce,
+  ILoginResponse,
+} from '../../core/models/models.interfece';
 import { Router } from '@angular/router';
 import { ROUTE_NAMES } from '../../shared/enums/routes.enum';
 import { AuthService } from '../../core/services/auth.service';
@@ -22,8 +25,9 @@ export class AccountsEffects {
         this._accountsService.login(action.payload).pipe(
           tap((res: IApiResponce) => {
             if (res._status) {
-              this._authService.setCurrentUser(res._data);
-              this.router.navigateByUrl(ROUTE_NAMES.APP);
+              const loginData: ILoginResponse = res._data;
+              this._authService.setCurrentUser(loginData);
+              this._authService.navigateBasedOnPermission();
             }
           }),
           map((res: IApiResponce) =>

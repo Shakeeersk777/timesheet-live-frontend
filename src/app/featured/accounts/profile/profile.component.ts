@@ -13,10 +13,12 @@ import {
 import { AuthService } from '../../../core/services/auth.service';
 import { SelectDropdownComponent } from '../../../shared/components/select-dropdown/select-dropdown.component';
 import { ROUTE_NAMES } from '../../../shared/enums/routes.enum';
-import { IEmployee } from '../../employees/employee.model';
+import { IEditEmployee, IEmployee } from '../../employees/employee.model';
 import { EmployeeService } from '../../employees/employee.service';
 import { LayoutService } from '../../layout/layout.service';
 import { formatDate } from '../../../core/utils/common-functions';
+import { Store } from '@ngrx/store';
+import { EMPLOYEE_ACTIONS } from '../../../store/employee/employee.action';
 
 @Component({
   selector: 'app-profile',
@@ -26,6 +28,7 @@ import { formatDate } from '../../../core/utils/common-functions';
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
+  store = inject(Store);
   private formBuilder: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private _employeeService: EmployeeService = inject(EmployeeService);
@@ -35,10 +38,12 @@ export class ProfileComponent {
   overviewForm!: FormGroup;
   employeeOverviewData!: IEmployee;
   dropdownData: IDropdownResponse | undefined;
+  isAdmin = false;
 
   ngOnInit(): void {
     this.initForm();
     this.getDropdownData();
+    this.isAdmin = this._authService.isAdmin();
 
     this.activatedRoute.paramMap.subscribe((params) => {
       const empId = params.get('id');
@@ -51,14 +56,14 @@ export class ProfileComponent {
 
   initForm() {
     this.overviewForm = this.formBuilder.group({
-      id: new FormControl({ value: '', disabled: true }),
+      id: new FormControl(''),
       firstName: new FormControl(''),
       lastName: new FormControl(''),
-      email: new FormControl({ value: '', disabled: true }),
-      activeStatus: new FormControl({ value: false, disabled: true }),
-      assignedProjects: new FormControl({ value: null, disabled: true }),
-      createdDate: new FormControl({ value: '', disabled: true }),
-      lastUpdated: new FormControl({ value: '', disabled: true }),
+      email: new FormControl(''),
+      activeStatus: new FormControl(''),
+      assignedProjects: new FormControl(''),
+      createdDate: new FormControl(''),
+      lastUpdated: new FormControl(''),
     });
   }
 
@@ -124,6 +129,11 @@ export class ProfileComponent {
     };
 
     this.overviewForm.patchValue(formData);
+
+    //  this.isAdmin
+    //     ? this.overviewForm.enable()
+    //     : this.overviewForm.disable();
+    this.overviewForm.disable();
   }
 
   navigateToList() {
@@ -137,5 +147,30 @@ export class ProfileComponent {
     } else {
       this.router.navigateByUrl(ROUTE_NAMES.APP);
     }
+  }
+
+  updateProfile() {
+    if (this.overviewForm.invalid) return;
+    const payload = this.prepareRequest();
+
+    this.store.dispatch(
+      EMPLOYEE_ACTIONS.UPDATE_EMPLOYEE.LOAD({
+        payload,
+        id: this.employeeOverviewData.EmployeeId,
+      })
+    );
+  }
+
+  prepareRequest() {
+    const formData = this.overviewForm.getRawValue();
+
+    const responseBody: IEditEmployee = {
+      FirstName: formData.firstName,
+      LastName: formData.lastName,
+      Email: formData.email,
+      ActiveStatus: formData.activeStatus,
+    };
+
+    return responseBody;
   }
 }

@@ -52,7 +52,9 @@ export class EditEmployeeComponent {
       id: new FormControl({ value: '', disabled: true }, [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl({ value: '', disabled: true }, [
+        Validators.required,
+      ]),
       activeStatus: new FormControl(false, [Validators.required]),
     });
   }

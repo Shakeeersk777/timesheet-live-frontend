@@ -10,7 +10,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
 
   if (!admin) {
     // Redirect to access denied page
-    router.createUrlTree([ROUTE_NAMES.ACCESS_DENIED]);
+    router.navigate([ROUTE_NAMES.ACCESS_DENIED]);
     return false;
   }
 

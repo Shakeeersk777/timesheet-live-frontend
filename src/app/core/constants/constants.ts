@@ -7,7 +7,7 @@ export const SIDEBAR_LIST: ISidebarItem[] = [
     value: 'Dashboard',
     icon: 'fa fa-line-chart',
     url: ROUTE_NAMES.DASHBOARD,
-    isCommon: true,
+    isAdmin: true,
   },
   {
     key: 'employees',
@@ -36,13 +36,6 @@ export const SIDEBAR_LIST: ISidebarItem[] = [
     icon: 'fa fa-calendar-alt',
     url: `${ROUTE_NAMES.TIMESHEET.BASE}/${ROUTE_NAMES.TIMESHEET.LIST}`,
     isCommon: true,
-  },
-  {
-    key: 'reports',
-    value: 'Reports',
-    icon: 'fa fa-chart-bar',
-    url: `${ROUTE_NAMES.REPORT.BASE}/${ROUTE_NAMES.REPORT.LIST}`,
-    isAdmin: true,
   },
 ];
 

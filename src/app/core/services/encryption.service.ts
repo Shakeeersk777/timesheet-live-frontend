@@ -5,7 +5,7 @@ import * as CryptoJS from 'crypto-js';
   providedIn: 'root',
 })
 export class EncryptionService {
-  SECRET_KEY = 'my-secret-key-123';
+  SECRET_KEY = 'shakeeer-dev-hub-2025';
 
   encrypt(data: any): string {
     const json = JSON.stringify(data);

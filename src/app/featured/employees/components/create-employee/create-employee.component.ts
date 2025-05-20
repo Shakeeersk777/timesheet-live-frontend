@@ -7,9 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  IHeaderButton,
-} from '../../../../core/models/models.interfece';
+import { IHeaderButton } from '../../../../core/models/models.interfece';
 import { ROUTE_NAMES } from '../../../../shared/enums/routes.enum';
 import { ICreateEmployee } from '../../employee.model';
 import { CommonHeaderComponent } from '../../../../shared/components/common-header/common-header.component';
@@ -59,7 +57,7 @@ export class CreateEmployeeComponent {
     this.createForm = this.formBuilder.group({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
     });
   }
 

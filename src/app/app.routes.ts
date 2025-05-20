@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ROUTE_NAMES } from './shared/enums/routes.enum';
 import { authGuard } from './core/guards/auth.guard';
 import { ProfileOptionsComponent } from './featured/accounts/profile-options/profile-options.component';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,7 @@ export const routes: Routes = [
       },
       {
         path: ROUTE_NAMES.DASHBOARD,
+        canActivate: [roleGuard],
         loadComponent: () =>
           import('./featured/dashboard/components/dashboard.component').then(
             (component) => component.DashboardComponent
@@ -56,13 +58,6 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./featured/timesheets/timesheet.routes').then(
             (routes) => routes.timesheetRoutes
-          ),
-      },
-      {
-        path: ROUTE_NAMES.REPORT.BASE,
-        loadChildren: () =>
-          import('./featured/reports/report.routes').then(
-            (routes) => routes.reportsRoutes
           ),
       },
       {

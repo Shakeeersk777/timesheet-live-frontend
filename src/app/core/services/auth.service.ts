@@ -9,7 +9,7 @@ import { ILoginResponse } from '../models/models.interfece';
 export class AuthService {
   private _router = inject(Router);
 
-  setCurrentUser(data: any) {
+  setCurrentUser(data: ILoginResponse) {
     localStorage.setItem('currentUser', JSON.stringify(data));
   }
 
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return !!(this.getCurrentUser()?.isAdmin);
+    return !!this.getCurrentUser()?.isAdmin;
   }
 
   getToken(): string | null {
@@ -38,5 +38,15 @@ export class AuthService {
   logout() {
     this.clearCurrentUser();
     this._router.navigateByUrl(ROUTE_NAMES.AUTH.BASE);
+  }
+
+  navigateBasedOnPermission() {
+    if (this.isAdmin()) {
+      this._router.navigateByUrl(ROUTE_NAMES.APP);
+    } else {
+      this._router.navigateByUrl(
+        `${ROUTE_NAMES.APP}/${ROUTE_NAMES.PROJECT.BASE}/${ROUTE_NAMES.PROJECT.LIST}`
+      );
+    }
   }
 }

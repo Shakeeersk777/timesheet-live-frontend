@@ -43,8 +43,4 @@ export const ROUTE_NAMES = {
     OVERVIEW: 'overview',
     ASSIGN: 'assign',
   },
-  REPORT: {
-    BASE: 'reports',
-    LIST: 'manage',
-  },
 } as const;
